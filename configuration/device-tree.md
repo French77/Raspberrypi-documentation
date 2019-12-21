@@ -235,7 +235,7 @@ Trying again, this time using the original example and adding the `-@` option to
 dtc -@ -I dts -O dtb -o 1st.dtbo 1st-overlay.dts
 ```
 
-If `dtc` returns an error about the third line, it doesn't have the extensions required for overlay work. Run `sudo apt-get install device-tree-compiler` and try again - this time, compilation should complete successfully. Note that a suitable compiler is also available in the kernel tree as `scripts/dtc/dtc`, built when the `dtbs` make target is used:
+If `dtc` returns an error about the third line, it doesn't have the extensions required for overlay work. Run `sudo apt install device-tree-compiler` and try again - this time, compilation should complete successfully. Note that a suitable compiler is also available in the kernel tree as `scripts/dtc/dtc`, built when the `dtbs` make target is used:
 ```
 make ARCH=arm dtbs
 ```
@@ -819,7 +819,7 @@ This sets an (exclusive) limit to the loaded device tree. By default the device 
 If non-zero, turn on some extra logging for the firmware's device tree processing.
 
 `enable_uart`
-Enable the primary/console UART (ttyS0 on a Pi 3, ttyAMA0 otherwise - unless swapped with an overlay such as pi3-miniuart-bt). If the primary UART is ttyAMA0 then enable_uart defaults to 1 (enabled), otherwise it defaults to 0 (disabled). This is because it is necessary to stop the core frequency from changing which would make ttyS0 unusable, so `enable_uart=1` implies core_freq=250 (unless force_turbo=1). In some cases this is a performance hit, so it is off by default. More details on UARTs can be found [here](uart.md)
+Enable the primary/console UART (ttyS0 on a Pi 3, ttyAMA0 otherwise - unless swapped with an overlay such as miniuart-bt). If the primary UART is ttyAMA0 then enable_uart defaults to 1 (enabled), otherwise it defaults to 0 (disabled). This is because it is necessary to stop the core frequency from changing which would make ttyS0 unusable, so `enable_uart=1` implies core_freq=250 (unless force_turbo=1). In some cases this is a performance hit, so it is off by default. More details on UARTs can be found [here](uart.md)
 
 `overlay_prefix`
 Specifies a subdirectory/prefix from which to load overlays - defaults to "overlays/". Note the trailing "/". If desired you can add something after the final "/" to add a prefix to each file, although this is not likely to be needed.

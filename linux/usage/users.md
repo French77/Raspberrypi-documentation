@@ -8,7 +8,7 @@ Once you're logged in as the `pi` user, it is highly advisable to use the `passw
 
 Enter `passwd` on the command line and press `Enter`. You'll be prompted to enter your current password to authenticate, and then asked for a new password. Press `Enter` on completion and you'll be asked to confirm it. Note that no characters will be displayed while entering your password. Once you've correctly confirmed your password, you'll be shown a success message (`passwd: password updated successfully`), and the new password will apply immediately.
 
-If your user has `sudo` permissions, you can change another user's password with `passwd` preceded by the user's username. For example, `sudo passwd bob` will allow you to set the user `bob`'s password, and then some additional optional values for the user such as their name. Just press `Enter` to skip each of these options.
+If your user has `sudo` permissions, you can change another user's password with `passwd` followed by the user's username. For example, `sudo passwd bob` will allow you to set the user `bob`'s password, and then some additional optional values for the user such as their name. Just press `Enter` to skip each of these options.
 
 ### Remove a user's password
 
@@ -30,25 +30,21 @@ Upon creating a new user, the contents of `/etc/skel/` will be copied to the new
 
 ## Sudoers
 
-The default `pi` user on Raspbian is a sudoer. This gives the ability to run commands as root when preceded by `sudo`, and to switch to the root user with `sudo su`.
+The default `pi` user on Raspbian is a member of the `sudo` group. This gives the ability to run commands as root when preceded by `sudo`, and to switch to the root user with `sudo su`.
 
-To add a new user to sudoers, type `sudo visudo` (from a sudoer user) and find the line `root    ALL=(ALL:ALL) ALL`, under the commented header `# User privilege specification`. Copy this line and switch from `root` to the username. To allow passwordless root access, change to `NOPASSWD: ALL`. The example below gives the user `bob` passwordless sudo access:
-
-```bash
-# User privilege specification
-root  ALL=(ALL:ALL) ALL
-bob   ALL = NOPASSWD: ALL
-```
-
-Save and exit to apply the changes. Be careful, as it's possible to remove your own sudo rights by accident.
-
-You can change the editor the `visudo` command uses (the default is Nano) by entering:
+To add a new user to the `sudo` group, use the `adduser` command:
 
 ```bash
-update-alternatives --set editor /usr/bin/vim.tiny
+sudo adduser bob sudo
 ```
 
-This sets the editor to Vim.
+Note that the user `bob` will be prompted to enter their password when they run `sudo`. This differs from the behaviour of the `pi` user, since `pi` is not prompted for their password. If you wish to remove the password prompt from the new user, create a custom sudoers file and place it in the `/etc/sudoers.d` directory:
+
+```bash
+echo 'bob ALL=(ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/010_bob-nopasswd
+```
+
+Note that it is standard practice on Linux to have the user prompted for their password when they run `sudo`, since it makes the system slightly more secure.
 
 ## Delete a user
 
