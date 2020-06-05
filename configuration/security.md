@@ -10,7 +10,7 @@ Even if you are hidden behind a firewall, it is sensible to take security seriou
 
 ## Change your default password
 
-The default username and password is used for every single Raspberry Pi running Raspbian. So, if you can get access to a Raspberry Pi, and these settings have not been changed, you have `root` access to that Raspberry Pi.
+The default username and password is used for every single Raspberry Pi running Raspberry Pi OS. So, if you can get access to a Raspberry Pi, and these settings have not been changed, you have `root` access to that Raspberry Pi.
 
 So the first thing to do is change the password. This can be done via the raspi-config application, or from the command line.
 
@@ -60,7 +60,7 @@ Once you have confirmed that the new account is working, you can delete the `pi`
 sudo pkill -u pi
 ```
 
-Please note that with the current Raspbian distribution, there are some aspects that require the `pi` user to be present. If you are unsure whether you will be affected by this, then leave the `pi` user in place. Work is being done to reduce the dependency on the `pi` user.
+Please note that with the current Raspberry Pi OS distribution, there are some aspects that require the `pi` user to be present. If you are unsure whether you will be affected by this, then leave the `pi` user in place. Work is being done to reduce the dependency on the `pi` user.
 
 To delete the `pi` user, type the following:
 
@@ -76,25 +76,25 @@ sudo deluser -remove-home pi
 
 ## Make `sudo` require a password
 
-Placing `sudo` in front of a command runs it as a superuser, and by default, that does not need a password. In general, this is not a problem. However, if your Pi is exposed to the internet and somehow becomes exploited (perhaps via a webpage exploit for example), the attacker will be able to change things that require superuser credential, unless you have set `sudo` to require a password.
+Placing `sudo` in front of a command runs it as a superuser, and by default, that does not need a password. In general, this is not a problem. However, if your Pi is exposed to the internet and somehow becomes exploited (perhaps via a webpage exploit for example), the attacker will be able to change things that require superuser credentials, unless you have set `sudo` to require a password.
 
 To force `sudo` to require a password, enter:
 
 ```bash
-sudo nano /etc/sudoers.d/010_pi-nopasswd
+sudo visudo /etc/sudoers.d/010_pi-nopasswd
 ```
 
 and change the `pi` entry (or whichever usernames have superuser rights) to:
 
 ```bash
-alice ALL=(ALL) PASSWD: ALL
+pi ALL=(ALL) PASSWD: ALL
 ```
 
-Now save the file.
+Then save the file: it will be checked for any syntax errors. If no errors were detected, the file will be saved and you will be returned to the shell prompt. If errors were detected, you will be asked 'what now?' Press the 'enter' key on your keyboard: this will bring up a list of options. You will probably want to use 'e' for '(e)dit sudoers file again,' so you can edit the file and fix the problem. **Note that choosing option 'Q' will save the file with any syntax errors still in place, which makes it impossible for _any_ user to use the sudo command.**
 
 ## Ensure you have the latest security fixes
 
-This can be as simple as ensuring your version of Raspbian is up-to-date, as an up-to-date distribution contains all the latest security fixes. Full instructions can be found [here](../raspbian/updating.md).
+This can be as simple as ensuring your version of Raspberry Pi OS is up-to-date, as an up-to-date distribution contains all the latest security fixes. Full instructions can be found [here](../raspbian/updating.md).
 
 If you are using SSH to connect to your Raspberry Pi, it can be worthwhile to add a cron job that specifically updates the ssh-server. The following command, perhaps as a daily cron job, will ensure you have the latest SSH security fixes promptly, independent of your normal update process. More information on setting up cron can be found [here](../linux/usage/cron.md)
 
@@ -160,7 +160,7 @@ Save the file and either restart the ssh system with `sudo service ssh reload` o
 
 ## Install a firewall
 
-There are many firewall solutions available for Linux. Most use the underlying [iptables](http://www.netfilter.org/projects/iptables/index.html) project to provide packet filtering. This project sits over the Linux netfiltering system. `iptables` is installed by default on Raspbian, but is not set up. Setting it up can be a complicated task, and one project that provides a simpler interface than `iptables` is [ufw](https://www.linux.com/learn/introduction-uncomplicated-firewall-ufw), which stands for 'Uncomplicated Fire Wall'. This is the default firewall tool in Ubuntu, and can be easily installed on your Raspberry Pi:
+There are many firewall solutions available for Linux. Most use the underlying [iptables](http://www.netfilter.org/projects/iptables/index.html) project to provide packet filtering. This project sits over the Linux netfiltering system. `iptables` is installed by default on Raspberry Pi OS, but is not set up. Setting it up can be a complicated task, and one project that provides a simpler interface than `iptables` is [ufw](https://www.linux.com/learn/introduction-uncomplicated-firewall-ufw), which stands for 'Uncomplicated Fire Wall'. This is the default firewall tool in Ubuntu, and can be easily installed on your Raspberry Pi:
 
 ```bash
 sudo apt install ufw

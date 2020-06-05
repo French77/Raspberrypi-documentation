@@ -9,13 +9,15 @@ The [warning symbols](../warning-icons.md) can be disabled using this option, al
 
 ## logging_level
 
-Sets the Videocore logging level. The value is a Videocore-specific bitmask.
+Sets the VideoCore logging level. The value is a VideoCore-specific bitmask.
 
 ## include
 
 Causes the content of the specified file to be inserted into the current file.
 
 For example, adding the line `include extraconfig.txt` to `config.txt` will include the content of `extraconfig.txt` file in the `config.txt` file.
+
+**Include directives are not supported by bootcode.bin or the EEPROM bootloader**
 
 ## max_usb_current
 

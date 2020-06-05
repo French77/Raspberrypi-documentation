@@ -4,7 +4,7 @@ There are two main methods for building the kernel. You can build locally on a R
 
 ## Local building
 
-On a Raspberry Pi, first install the latest version of [Raspbian](https://www.raspberrypi.org/downloads/). Then boot your Pi, plug in Ethernet to give you access to the sources, and log in.
+On a Raspberry Pi, first install the latest version of [Raspberry Pi OS](https://www.raspberrypi.org/downloads/). Then boot your Pi, plug in Ethernet to give you access to the sources, and log in.
 
 First install Git and the build dependencies:
 
@@ -22,7 +22,7 @@ git clone --depth=1 https://github.com/raspberrypi/linux
 
 ### Choosing sources
 
-The `git clone` command above will download the current active branch (the one we are building Raspbian images from) without any history. Omitting the `--depth=1` will download the entire repository, including the full history of all branches, but this takes much longer and occupies much more storage.
+The `git clone` command above will download the current active branch (the one we are building Raspberry Pi OS images from) without any history. Omitting the `--depth=1` will download the entire repository, including the full history of all branches, but this takes much longer and occupies much more storage.
 
 To download a different branch (again with no history), use the `--branch` option:
 
@@ -30,17 +30,20 @@ To download a different branch (again with no history), use the `--branch` optio
 git clone --depth=1 --branch <branch> https://github.com/raspberrypi/linux
 ```
 
-where `<branch>` is the name of the branch that you wish to downlaod.
+where `<branch>` is the name of the branch that you wish to download.
 
 Refer to the [original GitHub repository](https://github.com/raspberrypi/linux) for information about the available branches.
 
 ### Kernel configuration
 
-Configure the kernel; as well as the default configuration, you may wish to [configure your kernel in more detail](configuring.md) or [apply patches from another source](patching.md), to add or remove required functionality:
+Configure the kernel; as well as the default configuration, you may wish to [configure your kernel in more detail](configuring.md) or [apply patches from another source](patching.md), to add or remove required functionality.
 
-Run the following commands, depending on your Raspberry Pi version.
+<a name="default_configuration"></a>
+#### Apply the default configuration
 
-### Raspberry Pi 1, Pi Zero, Pi Zero W, and Compute Module default build configuration
+First, prepare the default configuration by running the following commands, depending on your Raspberry Pi version:
+
+##### Raspberry Pi 1, Pi Zero, Pi Zero W, and Compute Module default build configuration
 
 ```bash
 cd linux
@@ -48,7 +51,7 @@ KERNEL=kernel
 make bcmrpi_defconfig
 ```
 
-### Raspberry Pi 2, Pi 3, Pi 3+, and Compute Module 3 default build configuration
+##### Raspberry Pi 2, Pi 3, Pi 3+, and Compute Module 3 default build configuration
 
 ```bash
 cd linux
@@ -56,13 +59,23 @@ KERNEL=kernel7
 make bcm2709_defconfig
 ```
 
-### Raspberry Pi 4
+##### Raspberry Pi 4 default build configuration
 
 ```bash
 cd linux
 KERNEL=kernel7l
 make bcm2711_defconfig
 ```
+
+#### Customising the Kernel version using LOCALVERSION
+
+In addition to your kernel configuration changes, you may wish to adjust the `LOCALVERSION` to ensure your new kernel does not receive the same version string as the upstream kernel. This both clarifies you are running your own kernel in the output of `uname` and ensures existing modules in `/lib/modules` are not overwritten.
+
+To do so, change the following line in `.config`:
+```
+CONFIG_LOCALVERSION="-v7l-MY_CUSTOM_KERNEL"
+```
+You can also change that setting graphically as shown in [the kernel configuration instructions](configuring.md). It is located in "General setup" => "Local version - append to kernel release".
 
 ### Building
 
@@ -81,10 +94,18 @@ sudo cp arch/arm/boot/zImage /boot/$KERNEL.img
 
 ## Cross-compiling
 
-First, you will need a suitable Linux cross-compilation host. We tend to use Ubuntu; since Raspbian is 
+First, you will need a suitable Linux cross-compilation host. We tend to use Ubuntu; since Raspberry Pi OS is 
 also a Debian distribution, it means many aspects are similar, such as the command lines.
 
 You can either do this using VirtualBox (or VMWare) on Windows, or install it directly onto your computer. For reference, you can follow instructions online [at Wikihow](http://www.wikihow.com/Install-Ubuntu-on-VirtualBox).
+
+### Install required dependencies
+
+To build the sources for cross-compilation, make sure you have the dependencies needed on your machine by executing:
+```bash
+sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev
+```
+If you find you need other things, please submit a pull request to change the documentation.
 
 ### Install toolchain
 
@@ -115,12 +136,6 @@ git clone --depth=1 https://github.com/raspberrypi/linux
 See [**Choosing sources**](#choosing_sources) above for instructions on how to choose a different branch.
 
 ### Build sources
-
-To build the sources for cross-compilation, make sure you have the dependencies needed on your machine by executing:
-```bash
-sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev
-```
-If you find you need other things, please submit a pull request to change the documentation.
 
 Enter the following commands to build the sources and Device Tree files:
 

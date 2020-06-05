@@ -9,9 +9,9 @@ The Raspberry Pi 4 has an SPI-attached EEPROM (4MBits/512KB), which contains cod
  - A small SPI EEPROM allows bugs to be fixed and features to be added after launch, in the field.
  - The local modifiable state means that OTP bootmode settings will not be required for network or USB mass storage boot on the Raspberry Pi 4. There are no user-modifiable OTP bootmode bits on Pi 4.
 
-## Network and USB boot
+## USB boot
 
-Support for these additional bootmodes will be added in the future via optional bootloader updates. The current schedule is to release network boot first, then USB boot.
+USB boot is not currently supported. Once it is ready a beta release will be announced on the Raspberry Pi Forums.
 
 ## Is the bootloader working correctly?
 
@@ -46,7 +46,7 @@ The `FREEZE_VERSION` option in the EEPROM config file may be used to indicate th
 
 ## Write protection of EEPROM
 
-There is no software write protection for the boot EEPROM but there will be a mechanism in Raspbian to skip any future updates to the EEPROM. However, it is possible to physically write-protect both EEPROMs via a simple resistor change on the board. Details will be published in the [schematics](./schematics/README.md).
+There is no software write protection for the boot EEPROM but there will be a mechanism in Raspberry Pi OS to skip any future updates to the EEPROM. However, it is possible to physically write-protect both EEPROMs via a simple resistor change on the board. Details will be published in the [schematics](./schematics/README.md).
 
 EEPROM image files contain a small user-modifiable config file, which may be modified using the `rpi-eeprom-config` script included in the `rpi-eeprom` package. See the [Bootloader Configuration Page](./bcm2711_bootloader_config.md) for configuration details.
 
@@ -74,7 +74,7 @@ vcgencmd bootloader_version
 ```
 
 ### Firmware release status
-The firmware release status corresponds to a particular subdirectory of bootloader firmware images (`/lib/firmware/raspberrypi/bootloader/...`), and can be changed to select a different release stream. By default, Raspbian only selects critical updates (security fixes or major hardware compatiblity changes) since most users do not use alternate boot modes (TFTP, USB etc)
+The firmware release status corresponds to a particular subdirectory of bootloader firmware images (`/lib/firmware/raspberrypi/bootloader/...`), and can be changed to select a different release stream. By default, Raspberry Pi OS only selects critical updates (security fixes or major hardware compatiblity changes) since most users do not use alternate boot modes (TFTP, USB etc)
 
 * critical - Default - rarely updated
 * stable - Updated when new/advanced features have been successfully beta tested. 

@@ -1,10 +1,10 @@
 # Raspberry Pi Camera Module
 
-This document describes the use of the four Raspberry Pi camera applications, as of 28 November 2018.
+This document describes the use of the four Raspberry Pi camera applications, as of 30 April 2020.
 
 There are four applications provided: `raspistill`, `raspivid`, `raspiyuv` and `raspividyuv`. `raspistill` and `raspiyuv` are very similar and are intended for capturing images; `raspivid` and `raspvidyuv` are for capturing video.
 
-All the applications are driven from the command line, and written to take advantage of the MMAL API which runs over OpenMAX. The MMAL API provides an easier to use system than that presented by OpenMAX. Note that MMAL is a Broadcom-specific API used only on Videocore 4 systems.
+All the applications are driven from the command line, and written to take advantage of the MMAL API which runs over OpenMAX. The MMAL API provides an easier to use system than that presented by OpenMAX. Note that MMAL is a Broadcom-specific API used only on VideoCore 4 systems.
 
 The applications use up to four OpenMAX (MMAL) components: camera, preview, encoder, and null_sink. All applications use the camera component; `raspistill` uses the Image Encode component; `raspivid` uses the Video Encode component; and `raspiyuv` and `raspividyuv` don't use an encoder, and sends their YUV or RGB output directly from the camera component to file.
 
@@ -149,6 +149,7 @@ Possible options are:
 - 50hz: set avoidance at 50Hz
 - 60hz: set avoidance at 60Hz
 
+```
 	--awb,	-awb		Set Automatic White Balance (AWB) mode
 ```
 Modes for which colour temperature ranges (K) are available have these settings in brackets.
@@ -245,10 +246,18 @@ Allows the specification of the area of the sensor to be used as the source for 
 ```
 
 ```
-	--shutter,	-ss		Set shutter speed
+	--shutter,	-ss		Set shutter speed/time
 ```
 
-Sets the shutter speed to the specified value (in microseconds). There's currently an upper limit of approximately 6000000us (6000ms, 6s), past which operation is undefined.
+Sets the shutter open time to the specified value (in microseconds). Shutter speed limits are as follows:
+
+| Camera Version | Max (microseconds)   |
+|----------------|:--------------------:| 
+| V1 (OV5647)    | 6000000 (i.e. 6s)    |
+| V2 (IMX219)    | 10000000 (i.e. 10s)  |
+| HQ (IMX477)    | 200000000 (i.e. 200s)|
+
+Using values above these maximums will result in undefined behaviour.
 
 ```
 	--drc,	-drc		Enable/disable dynamic range compression
@@ -264,10 +273,10 @@ DRC changes the images by increasing the range of dark areas, and decreasing the
 By default, DRC is off.
 
 ```
-	--stats,	-st		Display image statistics
+	--stats,	-st		Use stills capture frame for image statistics
 ```
 
-Displays the exposure, analogue and digital gains, and AWB settings used.
+Force recomputation of statistics on stills capture pass. Digital gain and AWB are recomputed based on the actual capture frame statistics, rather than the preceding preview frame.
 
 ```
 	--awbgains,	-awbg
@@ -279,13 +288,13 @@ Sets blue and red gains (as floating point numbers) to be applied when `-awb -of
 	--analoggain,	-ag
 ```
 
-Sets the analog gain value directly on the sensor (floating point value from 1.0 to 8.0 for the OV5647 sensor on Camera Module V1, and 1.0 to 12.0 for the IMX219 sensor on on Camera Module V2).
+Sets the analog gain value directly on the sensor (floating point value from 1.0 to 8.0 for the OV5647 sensor on Camera Module V1, and 1.0 to 12.0 for the IMX219 sensor on Camera Module V2 and the IMX447 on the HQ Camera).
 
 ```
 	--digitalgain,	-dg
 ```
 
-Sets the digital gain value applied by the ISP (floating point value from 1.0 to 255.0, but values over about 4.0 will produce overexposed images)
+Sets the digital gain value applied by the ISP (floating point value from 1.0 to 64.0, but values over about 4.0 will produce overexposed images)
 
 ```
 	--mode,	-md
@@ -297,7 +306,7 @@ Version 1.x (OV5647)
 
 |Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
 |----|------|--------------|------------|-----|---------|
-|0| automatic selection |||||
+|0| automatic selection | | | | |
 |1|1920x1080|16:9| 1-30fps|Partial|None|
 |2|2592x1944|4:3|1-15fps|Full|None|
 |3|2592x1944|4:3|0.1666-1fps|Full|None|
@@ -310,7 +319,7 @@ Version 2.x (IMX219)
 
 |Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
 |----|------|--------------|------------|-----|---------|
-|0| automatic selection |||||
+|0| automatic selection | | | | |
 |1|1920x1080|16:9| 0.1-30fps|Partial|None|
 |2|3280x2464|4:3|0.1-15fps|Full|None|
 |3|3280x2464|4:3|0.1-15fps|Full|None|
@@ -320,6 +329,16 @@ Version 2.x (IMX219)
 |7|640x480|4:3|40-200fps<sup>1</sup>|Partial|2x2|
 
 <sup>1</sup>For frame rates over 120fps, it is necessary to turn off automatic exposure and gain control using `-ex off`. Doing so should achieve the higher frame rates, but exposure time and gains will need to be set to fixed values supplied by the user.
+
+HQ Camera
+
+|Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
+|----|------|--------------|------------|-----|---------|
+|0| automatic selection | | | | |
+|1|2028x1080|169:90| 0.1-50fps|Partial|2x2|
+|2|2028x1520|4:3|0.1-50fps|Full|2x2|
+|3|4056x3040|4:3|0.005-10fps|Full|None|
+|4|1012x760|4:3|50.1-120fps|Full|4x4|
 
 ```
 	--camselect,	-cs
@@ -341,13 +360,13 @@ Text may include date/time placeholders by using the '%' character, as used by <
 |-a 4|Time|20:09:33|
 |-a 8|Date|10/28/15|
 |-a 12|4+8=12 Show the date(4) and time(8)|20:09:33 10/28/15|
-|-a 16|Shutter Settings||
-|-a 32|CAF Settings||
-|-a 64|Gain Settings||
-|-a 128|Lens Settings||
-|-a 256|Motion Settings||
-|-a 512|Frame Number||
-|-a 1024|Black Background||
+|-a 16|Shutter Settings| |
+|-a 32|CAF Settings| |
+|-a 64|Gain Settings| |
+|-a 128|Lens Settings| |
+|-a 256|Motion Settings| |
+|-a 512|Frame Number| |
+|-a 1024|Black Background| |
 |-a "ABC %Y-%m-%d %X"|Show some text|ABC %Y-%m-%d %X|
 |-a 4 -a "ABC %Y-%m-%d %X"|Show custom <a title="strftime man page" href="http://man7.org/linux/man-pages/man3/strftime.3.html">formatted</a> date/time|ABC 2015-10-28 20:09:33|
 |-a 8 -a "ABC %Y-%m-%d %X"|Show custom <a title="strftime man page" href="http://man7.org/linux/man-pages/man3/strftime.3.html">formatted</a> date/time|ABC 2015-10-28 20:09:33|
@@ -429,7 +448,9 @@ Outputs debugging/information messages during the program run.
 	--timeout,	-t		Time before the camera takes picture and shuts down
 ```
 
-The program will run for this length of time, then take the capture (if output is specified). If not specified, this is set to 5 seconds.
+The program will run for the specified length of time, entered in milliseconds. It then takes the capture and saves it if an output is specified. If a timeout value is not specified, then it is set to 5 seconds (-t 5000). Note that low values (less than 500ms, although it can depend on other settings) may not give enough time for the camera to start up and provide enough frames for the automatic algorithms like AWB and AGC to provide accurate results.
+
+If set to 0, the preview will run indefinitely, until stopped with CTRL-C. In this case no capture is made. 
 
 ```
 	--timelapse,	-tl		time-lapse mode
