@@ -332,13 +332,13 @@ Version 2.x (IMX219)
 
 HQ Camera
 
-|Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
+|Mode| Size | Aspect Ratio |Frame rates | FOV | Binning/Scaling |
 |----|------|--------------|------------|-----|---------|
 |0| automatic selection | | | | |
-|1|2028x1080|169:90| 0.1-50fps|Partial|2x2|
-|2|2028x1520|4:3|0.1-50fps|Full|2x2|
+|1|2028x1080|169:90| 0.1-50fps|Partial|2x2 binned|
+|2|2028x1520|4:3|0.1-50fps|Full|2x2 binned|
 |3|4056x3040|4:3|0.005-10fps|Full|None|
-|4|1012x760|4:3|50.1-120fps|Full|4x4|
+|4|1012x760|4:3|50.1-120fps|Full|4x4 Scaled|
 
 ```
 	--camselect,	-cs
@@ -645,14 +645,13 @@ Outputs debugging/information messages during the program run.
 ```
 	--timeout,	-t		Time before the camera takes picture and shuts down
 ```
-
-The program will run for this length of time, then take the capture (if output is specified). If not specified, this is set to 5 seconds. Setting 0 will mean the application will run continuously until stopped with Ctrl-C.
+The total length of time that the program will run for. If not specified, the default is 5000ms (5 seconds). If set to 0, the application will run indefinitely until stopped with Ctrl-C.
 
 ```
 	--demo,	-d		Run a demo mode <milliseconds>
 ```
 
-This options cycles through the range of camera options. No capture is done, and the demo will end at the end of the timeout period, irrespective of whether all the options have been cycled. The time between cycles should be specified as a millisecond value.
+This options cycles through the range of camera options. No recording is done, and the demo will end at the end of the timeout period, irrespective of whether all the options have been cycled. The time between cycles should be specified as a millisecond value.
 
 ```
 	--framerate,	-fps		Specify the frames per second to record
