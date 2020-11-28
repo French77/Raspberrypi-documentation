@@ -44,7 +44,7 @@ It's important to be aware of which pin is which. Some people use pin labels (li
 
 ![](images/raspio-portsplus.jpg)
 
-A handy reference can be accessed on the Raspberry Pi by opening a terminal window and running the command `pinout`. This tool is provided by the [GPIO Zero](https://gpiozero.readthedocs.io/) Python library, which it is installed by default on the Raspberry Pi OS desktop image, but not on Raspberry Pi OS Lite.
+A handy reference can be accessed on the Raspberry Pi by opening a terminal window and running the command `pinout`. This tool is provided by the [GPIO Zero](https://gpiozero.readthedocs.io/) Python library, which is installed by default on the Raspberry Pi OS desktop image, but not on Raspberry Pi OS Lite.
 
 ![](images/gpiozero-pinout.png)
 
@@ -62,3 +62,11 @@ It is possible to control GPIO pins using a number of programming languages and 
 - [GPIO with Processing3](https://processing.org/reference/libraries/io/GPIO.html)
 
 **Warning: while connecting up simple components to the GPIO pins is perfectly safe, it's important to be careful how you wire things up. LEDs should have resistors to limit the current passing through them. Do not use 5V for 3V3 components. Do not connect motors directly to the GPIO pins, instead use an [H-bridge circuit or a motor controller board](https://projects.raspberrypi.org/en/projects/physical-computing/16).**
+
+## Permissions
+
+In order to use the GPIO ports your user must be a member of the `gpio` group. The `pi` user is a member by default, other users need to be added manually.
+
+```bash
+sudo usermod -a -G gpio <username>
+```

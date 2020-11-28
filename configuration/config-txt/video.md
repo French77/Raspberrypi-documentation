@@ -41,6 +41,9 @@ On older Pi models, the composite behaviour remains the same.
 
 **Note for Raspberry Pi4B users:** Because the Raspberry Pi 4B has two HDMI ports, some HDMI commands can be applied to either port. You can use the syntax `<command>:<port>`, where port is 0 or 1, to specify which port the setting should apply to. If no port is specified, the default is 0. If you specify a port number on a command that does not require a port number, the port is ignored. Further details on the syntax and alternatives mechanisms can be found in the HDMI section on the [conditionals page](./conditional.md) of the documentation.
 
+In order to support dual 4k displays, the Raspberrry Pi 4 has updated video hardware, which imposes minor restrictions on the modes supported. Please see
+[here](./pi4-hdmi.md) for more details.
+
 ### hdmi_safe
 
 Setting `hdmi_safe` to `1` will lead to "safe mode" settings being used to try to boot with maximum HDMI compatibility. This is the same as setting the following parameters:
@@ -113,6 +116,12 @@ The `hdmi_pixel_encoding` command forces the pixel encoding mode. By default, it
 | 2 | RGB full (0-255) |
 | 3 | YCbCr limited (16-235) |
 | 4 | YCbCr full (0-255) |
+
+### hdmi_max_pixel_freq
+
+The pixel frequency is used by the firmware and KMS to filter HDMI modes. Note, this is not the same as the frame rate. It specifies the maximum frequency that a valid mode can have, thereby culling out higher frequency modes. The frequencies for all the HDMI modes can he found on the Wiki page [here](https://en.wikipedia.org/wiki/Extended_Display_Identification_Data#CEA_EDID_Timing_Extension_data_format_-_Version_3), section "CEA/EIA-861 standard resolutions and timings".
+
+So for example, if you wish to disable all 4K modes, you could specify a maximum frequency of 200000000, since all 4K modes have frequencies greater than this.
 
 ### hdmi_blanking
 
@@ -362,7 +371,7 @@ These values are valid if `hdmi_group=2` (DMT):
 | 78 | 2560x1600 | 75Hz | 16:10 | |
 | 79 | 2560x1600 | 85Hz | 16:10 | |
 | 80 | 2560x1600 | 120Hz | 16:10 | reduced blanking |
-| 81 | 1366x768 | 60Hz | 16:9 |  |
+| 81 | 1366x768 | 60Hz | 16:9 | [NOT on Pi4](./pi4-hdmi.md) |
 | 82 | 1920x1080 | 60Hz | 16:9 | 1080p |
 | 83 | 1600x900 | 60Hz | 16:9 | reduced blanking |
 | 84 | 2048x1152 | 60Hz | 16:9 | reduced blanking |
@@ -639,6 +648,14 @@ The options that can be set are:
 |HDMI 0         | 2 |
 |Composite      | 3 | 
 |HDMI 1         | 7 |
+
+### max_framebuffers
+
+This configuration entry sets the maximum number of firmware framebuffers that can be created. Valid options are 0,1, and 2. By default on devices before the Pi4 this is set to 1, so will need to be increased to 2 when using more than one display, for example HDMI and a DSI or DPI display. The Raspberry Pi4 configuration sets this to 2 by default as it has two HDMI ports. 
+
+Generally in most cases it is safe to set this to 2, as framebuffers will only be created when an attached device is actually detected. 
+
+Setting this value to 0 can be used to reduce memory requirements when used in headless mode as it will prevent any framebuffers from being allocated. 
 
 ### test_mode
 

@@ -32,16 +32,16 @@ Displays the enabled and detected state of the official camera. 1 means yes, 0 m
 
 Returns the throttled state of the system. This is a bit pattern - a bit being set indicates the following meanings:
 
-| Bit | Meaning |
-|:---:|---------|
-| 0   | Under-voltage detected |
-| 1   | Arm frequency capped |
-| 2   | Currently throttled |
-| 3   | Soft temperature limit active |
-| 16  | Under-voltage has occurred |
-| 17  | Arm frequency capping has occurred |
-| 18  | Throttling has occurred |
-| 19  | Soft temperature limit has occurred |
+| Bit | Hex value | Meaning |
+|:---:|-----------|---------|
+| 0   | 1 | Under-voltage detected |
+| 1   | 2 | Arm frequency capped |
+| 2   | 4 | Currently throttled |
+| 3   | 8 | Soft temperature limit active |
+| 16  | 10000 | Under-voltage has occurred |
+| 17  | 20000 | Arm frequency capping has occurred |
+| 18  | 40000 | Throttling has occurred |
+| 19  | 80000 | Soft temperature limit has occurred |
 
 A value of zero indicates that none of the above conditions is true.
 
@@ -57,6 +57,10 @@ Adding the bit numbers along the top we get:
 ```
 
 From this we can see that bits 18 and 16 are set, indicating that the Pi has previously been throttled due to under-voltage, but is not currently throttled for any reason.
+
+Alternately, the values can be derived using the hex values above, by successively subtracting the largest value:
+
+``0x50000 = 40000 + 10000``
 
 #### measure_temp
 
@@ -139,6 +143,8 @@ Dump a list of all dispmanx items currently being displayed.
 #### display_power [0 | 1 | -1] [display]
 
 Show current display power state, or set the display power state. `vcgencmd display_power 0` will turn off power to the current display. `vcgencmd display_power 1` will turn on power to the display. If no parameter is set, this will display the current power state. The final parameter is an optional display ID, as returned by `tvservice -l` or from the table below, which allows a specific display to be turned on or off.
+
+Note that for the 7" Raspberry Pi Touch Display this simply turns the backlight on and off. The touch functionality continues to operate as normal.
 
 `vcgencmd display_power 0 7` will turn off power to display ID 7, which is HDMI 1 on a Raspberry Pi 4.
 
