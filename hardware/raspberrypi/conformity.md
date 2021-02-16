@@ -19,6 +19,7 @@ All Raspberry Pi products have undergone extensive compliance testing, and copie
 | CM3/CM3 Lite | [EU](./compliance/rpi_DOC_CM3_EU.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_CM3_FCC.pdf)| |
 | CM3+ All models | [EU](./compliance/rpi_DOC_CM3plus_EU.PDF)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_CM3plus_FCC.PDF)| |
 | CM4 All models | [EU](./compliance/rpi_DOC_CM4_EU_RED.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_CM4_USA.pdf)| |
+| Raspberry Pi Pico | [EU](./compliance/RaspberryPi_Pico_DOC_EU.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/RaspberryPi_Pico_DOC_FCC.pdf)| |
 | Display   | [EU](./compliance/rpi_DOC_Display_CE.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_Display_FCC.pdf) | [Korea](./compliance/rpi_DOC_display_KOREA.pdf) &nbsp; &nbsp; |
 | Camera Module v1 | [EU](./compliance/rpi_DOC_Camera_CE.pdf) | |
 | Camera Module v2 | [EU](./compliance/rpi_DOC_Camera2_CE.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_Camera2_FCC.PDF) | |
@@ -29,7 +30,7 @@ All Raspberry Pi products have undergone extensive compliance testing, and copie
 | Mouse | [EU](./compliance/rpi_DOC_Mouse_EU.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_Mouse_FCC.pdf)| |
 | Keyboard | [EU](./compliance/rpi_DOC_KeyboardHub_EU.pdf)  &nbsp; &nbsp;[USA/FCC](./compliance/rpi_DOC_KeyboardHub_FCC.pdf)| |
 | Micro USB Power Supply | [EU](./compliance/rpi_DOC_uUSB_POWER_EU.pdf) &nbsp; &nbsp; | [China](./compliance/rpi_DOC_uUSB_POWER_CHINA.pdf) &nbsp; &nbsp;[Korea](./compliance/rpi_DOC_uUSB_POWER_KOREA.pdf) &nbsp; &nbsp;[Taiwan](./compliance/rpi_DOC_uUSB_POWER_TAIWAN.pdf) &nbsp; &nbsp; |
-| Pi4 Power Supply | [EU](./compliance/rpi_DOC_psutypeC_CE.pdf) &nbsp; &nbsp;| [FCC Part 15 SDOC](./compliance/rpi_DOC_psutypeC_FCC_1.pdf) &nbsp; &nbsp;[ICES-003](./compliance/rpi_DOC_psutypeC_ICES_1.pdf) &nbsp; &nbsp;[CB Test Certificate](./compliance/rpi_DOC_psutypeC_IEC_CB_1.PDF) &nbsp; &nbsp;[GS Certificate](./compliance/rpi_DOC_psutypeC_GS_1.PDF) &nbsp; &nbsp;[LVD 2014/35/EU certificate](./compliance/rpi_DOC_psutypeC_LVD_N8A_1.PDF)  &nbsp; &nbsp;[UL Energy Efficiency Certificate](./compliance/rpi_DOC_psutypeC_EEC.pdf)  &nbsp; &nbsp;[NOA UL Leaf Mark](./compliance/rpi_DOC_psutypeC_UL_LEAF_1.pdf) &nbsp; &nbsp;[SAA](./compliance/rpi_DOC_psutypeC_SAA.pdf) &nbsp; &nbsp;[RCM](./compliance/rpi_DOC_psutypeC_RCM.pdf) &nbsp; &nbsp;|
+| Pi4/400 Power Supply | [EU](./compliance/rpi_DOC_psutypeC_CE.pdf) &nbsp; &nbsp;| [FCC Part 15 SDOC](./compliance/rpi_DOC_psutypeC_FCC_1.pdf) &nbsp; &nbsp;[ICES-003](./compliance/rpi_DOC_psutypeC_ICES_1.pdf) &nbsp; &nbsp;[CB Test Certificate](./compliance/rpi_DOC_psutypeC_IEC_CB_1.PDF) &nbsp; &nbsp;[GS Certificate](./compliance/rpi_DOC_psutypeC_GS_1.PDF) &nbsp; &nbsp;[LVD 2014/35/EU certificate](./compliance/rpi_DOC_psutypeC_LVD_N8A_1.PDF)  &nbsp; &nbsp;[UL Energy Efficiency Certificate](./compliance/rpi_DOC_psutypeC_EEC.pdf)  &nbsp; &nbsp;[NOA UL Leaf Mark](./compliance/rpi_DOC_psutypeC_UL_LEAF_1.pdf) &nbsp; &nbsp;[SAA](./compliance/rpi_DOC_psutypeC_SAA.pdf) &nbsp; &nbsp;[RCM](./compliance/rpi_DOC_psutypeC_RCM.pdf) &nbsp; &nbsp;[India (BIS)](./compliance/rpi_DOC_psutypeC_BIS.pdf) &nbsp; &nbsp;|
 
 
 ## Flammability rating
@@ -45,10 +46,6 @@ The PCBs used in Raspberry Pi devices adhere to UL94-V0. Note that this applies 
 
 ## The Raspberry Pi Integrator Programme
 
-The programme provides access to the same test engineers who worked on our Raspberry Pis during their compliance testing. It connects the user to a dedicated team at UL that assesses and tests the user’s product, facilitated by their in-depth knowledge of Raspberry Pi. The team at UL work closely with the Raspberry Pi engineering team, so any unexpected issues that may arise during testing can be resolved quickly. Through the programme, UL will streamline the testing and certification process, which will in turn decrease the amount of time necessary to launch the product. Our Integrator Programme is openly available, it comes with no added cost beyond the usual testing fees at UL, and there are companies already taking advantage of it.
+The Integrator Programme is designed to eliminate the burden of navigating compliance issues and make it easier for companies to bring new products to consumers. It provides access to the same test engineers who worked on our Raspberry Pis during their compliance testing, connecting the user to a dedicated team at [UL](https://www.ul-certification.com/) who assess and test the user’s product, facilitated by their in-depth knowledge of Raspberry Pi.
 
-Please contact compliance@raspberrypi.com for more details of the Integrator Programme.
-
-## Get your product on the market more quickly										
-
-We have put the Integrator Programme in place in the hope of eliminating the burden of navigating complicated compliance issues and making it easier for companies to bring new, exciting products to consumers. With simplified testing, companies and individuals can get products to market in less time and with lower overhead costs.
+[Find out more about the Raspberry Pi Integrator Programme](https://www.raspberrypi.org/for-industry/integrator-programme/).

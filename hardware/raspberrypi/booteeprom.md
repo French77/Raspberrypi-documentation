@@ -7,6 +7,9 @@ If an error occurs during boot then an [error code](../../configuration/led_blin
 
 ## Updating the bootloader
 
+## Compute Module 4
+Bootloader EEPROM updates on Compute Module 4 require [rpiboot](https://github.com/raspberrypi/usbboot) which is also used for flashing the EMMC. Please see the [Compute Module flashing guide](../computemodule/cm-emmc-flashing.md) for instructions.
+
 ### Raspberry Pi Imager
 The easiest way to to update the bootloader to the latest version with default settings is to use the [Raspberry Pi Imager](https://www.raspberrypi.org/downloads/) to install a boot recovery image onto a spare SD card.
 
@@ -27,7 +30,7 @@ sudo reboot
 ```
 
 ## Manually checking if an update is available
-Running the `rpi-eeprom-update` command with no parameters indicates whether an update is required. An update is required if the version of the most recent file in the firmware directory (normally `/lib/firmware/raspberrypi/bootloader/critical`) is newer than that reported by the current bootloader.
+Running the `rpi-eeprom-update` command with no parameters indicates whether an update is required. An update is required if the version of the most recent file in the firmware directory (normally `/lib/firmware/raspberrypi/bootloader/default`) is newer than that reported by the current bootloader.
 The images under `/lib/firmware/raspberrypi/bootloader` are part of the `rpi-eeprom` package and are only updated via `apt upgrade`.
 
 ```
@@ -113,17 +116,19 @@ At power on, the BCM2711 ROM looks for a file called `recovery.bin` in the root 
 * If the bootloader update image is called `pieeprom.upd` then `recovery.bin` renames itself to `recovery.000` and resets the CPU. Since `recovery.bin` is no longer present the ROM loads the newly updated bootloader from SPI EEPROM and the OS is booted as normal.
 * If the bootloader update image is called `pieeprom.bin` the `recovery.bin` will stop after the update has completed. On success the HDMI output will be green and the green activity LED is flashed rapidly. Otherwise, the HDMI output will be red and an [error code](../../configuration/led_blink_warnings.md) will be displayed via the activity LED.
 * The `.sig` files should just contain the sha256 checksum (in hex) of the corresponding image file. Other fields may be added in the future.
-* The BCM2711 ROM does not support loading `recovery.bin` from USB mass storage or TFTP. Instead, newer versions of the bootloader support a self-update mechanism where the SPI bootloader is able to reflash the SPI EEPROM itself. See `ENABLE_SELF_UPDATE` on the (bootloader configuration)[bcm2711_bootloader_config.md] page.
+* The BCM2711 ROM does not support loading `recovery.bin` from USB mass storage or TFTP. Instead, newer versions of the bootloader support a self-update mechanism where the SPI bootloader is able to reflash the SPI EEPROM itself. See `ENABLE_SELF_UPDATE` on the [bootloader configuration](bcm2711_bootloader_config.md) page.
 * The temporary EEPROM update files are automatically deleted by the `rpi-eeprom-update` service at startup. 
 
 ### Firmware release status
-The firmware release status corresponds to a particular subdirectory of bootloader firmware images (`/lib/firmware/raspberrypi/bootloader/...`), and can be changed to select a different release stream. By default, Raspberry Pi OS only selects critical updates (security fixes or major hardware compatiblity changes) since most users do not use alternate boot modes (TFTP, USB etc)
+The firmware release status corresponds to a particular subdirectory of bootloader firmware images (`/lib/firmware/raspberrypi/bootloader/...`), and can be changed to select a different release stream. By default, Raspberry Pi OS automatically updates the bootloader if 'default' image in the 'rpi-eeprom' image is newer than the current bootloader image. The bootloader EEPROM config is migrated during the upgrade.
 
-* critical - Default - rarely updated
-* stable - Updated when new/advanced features have been successfully beta tested. 
-* beta - New or experimental features are tested here first.
+* `default` - Updated for new hardware support, critical bug fixes and periodic update for new features that have been tested via the `latest` release.
+* `latest` - Updated when new features have been successfully beta tested.
+* `beta` - New or experimental features are tested here first.
 
 Since the release status string is just a subdirectory name then it's possible to create your own release streams e.g. a pinned release or custom network boot configuration.
+
+N.B. `default` and `latest` are symbolic links to the older release names of `critical` and `stable`.
 
 ### Changing the firmware release
 

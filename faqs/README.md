@@ -140,7 +140,7 @@ The following prices are in US dollars, and exclusive of any local taxes and shi
 | [Raspberry Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w) |$10 |
 | [Raspberry Pi Zero WH](https://www.raspberrypi.org/products/raspberry-pi-zero-w) |$15 |
 | [Raspberry Pi 400](https://www.raspberrypi.org/products/raspberry-pi-400-unit) |$70 |
-| [Raspberry Pi 400 offical kit](https://www.raspberrypi.org/products/raspberry-pi-400) |$100 |
+| [Raspberry Pi 400 official kit](https://www.raspberrypi.org/products/raspberry-pi-400) |$100 |
 
 <a name="buying-what"></a>
 ### What do I get when I buy one?
@@ -462,6 +462,7 @@ The device needs to be powered with a 5V power supply with a USB connector; USB-
 | Raspberry Pi 3 Model A+ | 2.5A | Limited by PSU, board, and connector ratings only. | 350mA |
 | Raspberry Pi 3 Model B+ | 2.5A | 1.2A | 500mA |
 | Raspberry Pi 4 Model B | 3.0A | 1.2A | 600mA |
+| Raspberry Pi 400       | 3.0A | 1.2A | 800mA |
 | Raspberry Pi Zero W/WH | 1.2A | Limited by PSU, board, and connector ratings only.| 150mA |
 | Raspberry Pi Zero | 1.2A | Limited by PSU, board, and connector ratings only | 100mA |
 
@@ -565,7 +566,7 @@ The Raspberry Pi 4 does not currently support network booting without an SD card
 
 We have also developed [PiServer](https://www.raspberrypi.org/blog/piserver/), a piece of software that lets you easily set up a network of client Raspberry Pis connected to a single x86-based server via Ethernet. With PiServer, you don’t need SD cards, you can control all clients via the server, and you can add and configure user accounts — ideal for the classroom, your home, or an industrial setting.
 
-Another option is [PiNet](http://pinet.org.uk), which is a free and open-source community-based project initially designed for schools. Each Raspberry Pi boots off a small set of startup files on an SD card and fetches the rest of the data it needs from the PiNet server, thereby allowing you to maintain a single operating system image for all the Raspberry Pis. PiNet also adds network user accounts, shared folders and automated backups.
+Another option is [PiNet](http://pinet.org.uk), which is a free and open-source community-based project initially designed for schools. Each Raspberry Pi boots off a small set of startup files on an SD card and fetches the rest of the data it needs from the PiNet server, thereby allowing you to maintain a single operating system image for all the Raspberry Pis. PiNet also adds network user accounts, shared folders and automated backups. Please do note that PiNet is now [deprecated](http://pinet.org.uk/blog/2020/10/27/PiNet-end-of-life.html) and will no longer be supported at the end of 2020/2021 academic year.
 
 <a name="cameramodule"></a>
 
@@ -615,7 +616,7 @@ The Raspberry Pi Camera Modules requires 250mA to operate. Ensure that your powe
 <a name="troubleshoot-defpasswd"></a>
 ### What is the username and password for the Raspberry Pi?
 
-The default username for Raspberry Pi OS is `pi` (without any quotation marks) and the default password is `raspberry` (again, do not include the quotation marks). If this does not work, check the information about your specific distro on the [downloads page](https://www.raspberrypi.org/downloads).
+The default username for Raspberry Pi OS is `pi` and the default password is `raspberry`. If this does not work, check the information about your specific distro on the [downloads page](https://www.raspberrypi.org/downloads).
 
 <a name="troubleshoot-inputpasswd"></a>
 ### Why does nothing happen when I type in my password?
