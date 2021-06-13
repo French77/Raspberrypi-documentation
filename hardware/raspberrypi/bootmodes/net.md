@@ -1,12 +1,12 @@
 # Network booting
 
-This section describes how network booting works on the Raspberry Pi 3B, 3B+ and 2B v1.2. On the Raspberry Pi 4, network booting is implemented in the second stage bootloader in the EEPROM. Please see the [Pi 4 Bootloader Configuration](../bcm2711_bootloader_config.md) page for more information.
+This section describes how network booting works on the Raspberry Pi 3B, 3B+ and 2B v1.2. On the Raspberry Pi 4 network booting is implemented in the second stage bootloader in the EEPROM. Please see the [Pi 4 Bootloader Configuration](../bcm2711_bootloader_config.md) page for more information.
 We also have a [tutorial about setting up a network boot system](net_tutorial.md). Network booting works only for the wired adapter built into the above models of Raspberry Pi. Booting over wireless LAN is not supported, nor is booting from any other wired network device.
 
 To network boot, the boot ROM does the following:
 
 * Initialise on-board Ethernet device (Microchip LAN9500 or LAN7500)
-* Send DHCP request
+* Send DHCP request (with Vendor Class identifier DHCP option 60 set to 'PXEClient:Arch:00000:UNDI:002001')
 * Receive DHCP reply
 * (optional) Receive DHCP proxy reply
 * ARP to tftpboot server
