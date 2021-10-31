@@ -69,13 +69,19 @@
                     "title": "PIP",
                     "description": "The Product Information Portal (PIP) for Raspberry Pi compliance documents",
                     "image": "full-sized/PIP.png",
-                    "url": "https://pip.raspberrypi.org/"
+                    "url": "https://pip.raspberrypi.com/"
                 },
                 {
                     "title": "Datasheets",
                     "description": "The Datasheets site for PDF-based documentation",
                     "image": "full-sized/Datasheets.png",
-                    "url": "https://datasheets.raspberrypi.org"
+                    "url": "https://datasheets.raspberrypi.com"
+                },
+                {
+                    "title": "Forums",
+                    "description": "User and product support forums",
+                    "image": "full-sized/Forums.png",
+                    "url": "https://forums.raspberrypi.com"
                 }
             ]
         },
@@ -103,6 +109,12 @@
                     "subpath": "keyboard-and-mouse.adoc"
                 },
                 {
+                    "title": "Build HAT",
+                    "description": "How to use the Build HAT",
+                    "image": "full-sized/Build-HAT.png",
+                    "subpath": "build-hat.adoc"
+                },
+                {
                     "title": "Sense HAT",
                     "description": "How to use the Sense HAT",
                     "image": "full-sized/Sense-HAT.png",
@@ -124,13 +136,19 @@
                     "title": "PIP",
                     "description": "The Product Information Portal (PIP) for Raspberry Pi compliance documents",
                     "image": "full-sized/PIP.png",
-                    "url": "https://pip.raspberrypi.org/"
+                    "url": "https://pip.raspberrypi.com/"
                 },
                 {
                     "title": "Datasheets",
                     "description": "The Datasheets site for PDF-based documentation",
                     "image": "full-sized/Datasheets.png",
-                    "url": "https://datasheets.raspberrypi.org"
+                    "url": "https://datasheets.raspberrypi.com"
+                },
+                {
+                    "title": "Forums",
+                    "description": "User and product support forums",
+                    "image": "full-sized/Forums.png",
+                    "url": "https://forums.raspberrypi.com"
                 }
             ]
         },
@@ -166,13 +184,19 @@
                     "title": "PIP",
                     "description": "The Product Information Portal (PIP) for Raspberry Pi compliance documents",
                     "image": "full-sized/PIP.png",
-                    "url": "https://pip.raspberrypi.org/"
+                    "url": "https://pip.raspberrypi.com/"
                 },
                 {
                     "title": "Datasheets",
                     "description": "The Datasheets site for PDF-based documentation",
                     "image": "full-sized/Datasheets.png",
-                    "url": "https://datasheets.raspberrypi.org"
+                    "url": "https://datasheets.raspberrypi.com"
+                },
+                {
+                    "title": "Forums",
+                    "description": "User and product support forums",
+                    "image": "full-sized/Forums.png",
+                    "url": "https://forums.raspberrypi.com"
                 }
             ]
         }
