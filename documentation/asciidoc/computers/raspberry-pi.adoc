@@ -1,4 +1,3 @@
-
 include::raspberry-pi/raspberry-pi-schematics.adoc[]
 
 include::raspberry-pi/raspberry-pi-compliance.adoc[]
@@ -26,6 +25,8 @@ include::raspberry-pi/boot-net.adoc[]
 include::raspberry-pi/boot-gpio.adoc[]
 
 include::raspberry-pi/boot-nvme.adoc[]
+
+include::raspberry-pi/boot-http.adoc[]
 
 include::raspberry-pi/display-parallel-interface.adoc[]
 

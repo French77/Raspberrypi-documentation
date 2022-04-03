@@ -1,5 +1,8 @@
 :root {
-  --pink: #c51d4a;
+  --red: #cd2355;
+  --red-tint: #d75a64;
+  --docsearch-primary-color: var(--red);
+  --docsearch-logo-color: var(--red-tint);
 }
 
 /* overrides for the old theme */
@@ -38,6 +41,15 @@ body, article, div, nav, h1, h2, h3, h4, p {
 
 body {
   background-color: #f6f6f6;
+}
+
+a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .toptitle {
@@ -80,52 +92,10 @@ div.subtitle p {
   margin-right: auto;
 }
 
-div#search-container {
+#docsearch .DocSearch-Button {
   margin-top: 30px;
-}
-
-input#search-input {
-  color: #fff;
-  height: 40px;
-  width: 350px;
-  border-radius: 20px;
-  border: 1px solid #828282;
-  background-color: #343434;
-  background-image: url("./search.svg");
-  background-repeat: no-repeat;
-  background-position: 10px 9px;
-  background-size: auto 20px;
-  padding-left: 40px;
-  padding-right: 30px;
-}
-
-ul#results-container {
-  text-align: left;
-  background-color: #fff;
-  width: 50%;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #343434;
-  color: var(--pink);
-  font-size: 12px;
-  padding: 10px 10px 10px 30px;
-}
-
-ul#results-container:empty {
-  padding: 0px;
-}
-
-ul#results-container li:first-of-type {
-  margin-top: 15px;
-}
-
-ul#results-container li:last-of-type {
-  margin-bottom: 15px;
-}
-
-ul#results-container li,
-ul#results-container li::marker {
-  color: var(--pink);
 }
 
 #container {
@@ -180,6 +150,7 @@ nav#contents h3,
 nav#mobile-contents h3 {
   font-weight: bold;
   font-size: 0.85em;
+  line-height: 1.5rem;
   color: #343434;
   cursor: pointer;
 }
@@ -251,7 +222,7 @@ ul#tocify-header1 > ul.tocify-subheader {
 #content h1 {
   font-weight: 700;
   font-size: 34px;
-  color: var(--pink);
+  color: var(--red);
   margin-bottom: 40px;
   position: relative;
   margin-left: -1rem;
@@ -336,7 +307,7 @@ h3:hover .anchor,
 h4:hover .anchor, 
 h5:hover .anchor, 
 h6:hover .anchor {
-  color: var(--pink);
+  color: var(--red);
   visibility: visible;
 }
 
@@ -442,6 +413,36 @@ h6 .anchor::before {
   margin-bottom: 0;
 }
 
+#content table.tableblock th.halign-left,
+#content table.tableblock td.halign-left {
+  text-align: left;
+}
+
+#content table.tableblock th.halign-right,
+#content table.tableblock td.halign-right {
+  text-align: right;
+}
+
+#content table.tableblock th.halign-center,
+#content table.tableblock td.halign-center {
+  text-align: center;
+}
+
+#content table.tableblock th.valign-top,
+#content table.tableblock td.valign-top {
+  vertical-align: top;
+}
+
+#content table.tableblock th.valign-bottom,
+#content table.tableblock td.valign-bottom {
+  vertical-align: bottom;
+}
+
+#content table.tableblock th.valign-middle,
+#content table.tableblock td.valign-middle {
+  vertical-align: middle;
+}
+
 #content td.icon {
   font-weight: bold;
   color: #343434;
@@ -512,12 +513,12 @@ div.admonitionblock tr {
 }
 
 div.admonitionblock td div.title {
-  color: var(--pink);
+  color: var(--red);
   text-transform: uppercase;
 }
 
 div.admonitionblock td.content {
-  border: 2px solid var(--pink);
+  border: 2px solid var(--red);
   padding: 10px;
   margin-top: 10px;
   width: 100%;
@@ -586,11 +587,7 @@ p#copyright {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-size: 0.85em;
-  color: #989898;
-}
-
-p#copyright a {
-  color: #696969;
+  color: #707070;
 }
 
 footer {

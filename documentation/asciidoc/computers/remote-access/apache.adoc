@@ -22,9 +22,9 @@ sudo apt install apache2 -y
 
 === Test the Web Server
 
-By default, Apache puts a test HTML file in the web folder. This default web page is served when you browse to `+http://localhost/+` on the Pi itself, or `+http://192.168.1.10+` (whatever the Pi's IP address is) from another computer on the network. To find the Pi's IP address, type `hostname -I` at the command line (or read more about finding your xref:remote-access.adoc#ip-address[IP address]).
+By default, Apache puts a test HTML file in the web folder. This default web page is served when you browse to `+http://localhost/+` on the Raspberry Pi itself, or `+http://192.168.1.10+` (whatever the Raspberry Pi's IP address is) from another computer on the network. To find the Raspberry Pi's IP address, type `hostname -I` at the command line (or read more about finding your xref:remote-access.adoc#ip-address[IP address]).
 
-Browse to the default web page either on the Pi or from another computer on the network and you should see the following:
+Browse to the default web page either on the Raspberry Pi or from another computer on the network and you should see the following:
 
 image::images/apache-it-works.png[Apache success message]
 
@@ -51,7 +51,7 @@ drwxr-xr-x 12 root root 4096 Jan  8 01:28 ..
 -rw-r--r--  1 root root  177 Jan  8 01:29 index.html
 ----
 
-This shows that by default there is one file in `/var/www/html/` called ``index.html``and it is owned by the `root` user (as is the enclosing folder). In order to edit the file, you need to change its ownership to your own username. Change the owner of the file (the default `pi` user is assumed here) using `sudo chown pi: index.html`.
+This shows that by default there is one file in `/var/www/html/` called `index.html` and it is owned by the `root` user (as is the enclosing folder). In order to edit the file, you need to change its ownership to your own username. Change the owner of the file (the default `pi` user is assumed here) using `sudo chown pi: index.html`.
 
 You can now try editing this file and then refreshing the browser to see the web page change. If you know HTML you can put your own HTML files and other assets in this directory and serve them as a website on your local network.
 

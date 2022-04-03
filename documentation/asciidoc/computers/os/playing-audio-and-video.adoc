@@ -1,5 +1,10 @@
 == Playing Audio and Video
 
+[WARNING]
+====
+The following documentation refers to Raspberry Pi OS Buster and earlier versions. OMXPlayer has been deprecated in the https://www.raspberrypi.com/news/raspberry-pi-os-debian-bullseye/[latest OS release]. If you are running Bullseye, VLC is now the recommended alternative. 
+====
+
 The simplest way of playing audio and video on Raspberry Pi is to use the installed OMXPlayer application.
 
 This is hardware accelerated, and can play back many popular audio and video file formats. OMXPlayer uses the OpenMAX (`omx`) hardware acceleration interface (API) which is the officially supported media API on Raspberry Pi. OMXPlayer was developed by the Kodi Project's Edgar Hucek.
@@ -30,7 +35,7 @@ You can also specify which part of the video you want to be displayed: this is c
 omxplayer --crop 100,100,300,300 /opt/vc/src/hello_pi/hello_video/test.h264
 ----
 
-If you are using the Raspberry Pi Foundation's touchscreen display, and you want to use it for video output, use the display option to specify which display to use. `n` is 5 for HDMI, 4 for the touchscreen. With the Raspberry Pi 4 you have two options for HDMI output. `n` is 2 for HDMI0 and 7 for HDMI1.
+If you are using the https://www.raspberrypi.com/products/raspberry-pi-touch-display/[Raspberry Pi Touch Display], and you want to use it for video output, use the display option to specify which display to use. `n` is 5 for HDMI, 4 for the touchscreen. With the Raspberry Pi 4 you have two options for HDMI output. `n` is 2 for HDMI0 and 7 for HDMI1.
 
 ----
 omxplayer --display n /opt/vc/src/hello_pi/hello_video/test.h264
@@ -88,7 +93,7 @@ omxplayer example.mp4
 
 This will play the `example.mp4` in full screen. Hit `Ctrl + C` to exit.
 
-On the Pi 4, hardware support for MPEG2 and VC-1 codecs has been removed, so we recommend the use of the VLC application, which supports these formats in software. In addition, VLC has hardware support for H264 and the new HEVC codec.
+On the Raspberry Pi 4, hardware support for MPEG2 and VC-1 codecs has been removed, so we recommend the use of the VLC application, which supports these formats in software. In addition, VLC has hardware support for H264 and the new HEVC codec.
 
 ==== An Example Video
 
@@ -99,7 +104,7 @@ A video sample of the animated film _Big Buck Bunny_ is available on your Raspbe
 omxplayer /opt/vc/src/hello_pi/hello_video/test.h264
 ----
 
-On a Pi 4, use the following command for H264 files:
+On a Raspberry Pi 4, use the following command for H264 files:
 
 [,bash]
 ----

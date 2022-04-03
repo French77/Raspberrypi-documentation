@@ -17,7 +17,7 @@ This is the bootloader, which is loaded by the SoC on boot, does some very basic
 These are binary blobs (firmware) that are loaded on to the VideoCore in the SoC, which then take over the boot process.
 `start.elf` is the basic firmware, `start_x.elf` includes camera drivers and codec, `start_db.elf` is a debug version of the firmware, and `start_cd.elf` is a cut-down version with no support hardware blocks like codecs and 3D, and for use when `gpu_mem=16` is specified in `config.txt`. More information on how to use these can be found in xref:config_txt.adoc#boot-options[the `config.txt` section].
 
-`start4.elf`, `start4x.elf`, `start4cd.elf`, and `start4db.elf` are firmware files specific to the Pi 4.
+`start4.elf`, `start4x.elf`, `start4cd.elf`, and `start4db.elf` are firmware files specific to the Raspberry Pi 4.
 
 ==== fixup*.dat
 
@@ -29,7 +29,7 @@ The kernel command line passed in to the kernel when it boots.
 
 ==== config.txt
 
-Contains many configuration parameters for setting up the Pi. See xref:config_txt.adoc[the `config.txt` section].
+Contains many configuration parameters for setting up the Raspberry Pi. See xref:config_txt.adoc[the `config.txt` section].
 
 ==== issue.txt
 
@@ -45,7 +45,7 @@ This is the file to configure wireless network settings (if the hardware is capa
 
 ==== Device Tree files
 
-There are various Device Tree blob files, which have the extension `.dtb`. These contain the hardware definitions of the various models of Raspberry Pi, and are used on boot to set up the kernel xref:configuration.adoc#part3.1[according to which Pi model is detected].
+There are various Device Tree blob files, which have the extension `.dtb`. These contain the hardware definitions of the various models of Raspberry Pi, and are used on boot to set up the kernel xref:configuration.adoc#part3.1[according to which Raspberry Pi model is detected].
 
 ==== Kernel Files
 
@@ -61,21 +61,21 @@ The boot folder will contain various xref:linux_kernel.adoc#kernel[kernel] image
 
 | kernel7.img
 | BCM2836, BCM2837
-| Pi 2, Pi 3
+| Pi Zero 2 W, Pi 2, Pi 3
 | Later Pi 2 uses the BCM2837
 
 | kernel7l.img
 | BCM2711
-| Pi 4
+| Pi 4, Pi 400
 | Large Physical Address Extension (LPAE)
 
 | kernel8.img
 | BCM2837, BCM2711
-| Pi 2, Pi 3, Pi 4
+| Pi Zero 2 W, Pi 2, Pi 3, Pi 4, Pi 400
 | Beta xref:config_txt.adoc#boot-options[64 bit kernel]. Raspberry Pi 2 with BCM2836 does not support 64-bit.
 |===
 
-NOTE: The architecture reported by `lscpu` is `armv7l` for 32-bit systems (i.e. everything except kernel8.img), and `aarch64` for 64-bit systems. The `l` in the `armv7l` case refers to the architecture being little-endian, not `LPAE` as is indicated by the `l` in the `kernel7l.img` filename.
+NOTE: The architecture reported by `lscpu` is `armv7l` for systems running a 32-bit kernel (i.e. everything except `kernel8.img`), and `aarch64` for systems running a 64-bit kernel. The `l` in the `armv7l` case refers to the architecture being little-endian, not `LPAE` as is indicated by the `l` in the `kernel7l.img` filename.
 
 === The Overlays Folder
 

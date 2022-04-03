@@ -86,11 +86,12 @@ Go ahead and `brew install` the other dependencies,
 ```
 $ brew install python@3
 $ brew install ninja
+$ brew install gumbo-parser
 ```
 
 ### Install Scripting Dependencies
 
-After you've installed the toolchain (on either Linux or macOS), you'll need to install the required Ruby gems and Python modules. Make sure you're in the `documentation/` directory and then run,
+After you've installed the toolchain (on either Linux or macOS), you'll need to install the required Ruby gems and Python modules. Make sure you're in the top-level `documentation/` directory (i.e. the one containing `Gemfile.lock` and `requirements.txt`) and then run,
 ```
 $ bundle install
 ```
@@ -124,4 +125,4 @@ which will delete the `build/` and `documentation/html/` directories.
 
 ## Licence
 
-The Raspberry Pi [documentation](./documentation/) is [licensed](https://github.com/raspberrypi/documentation/blob/develop/LICENSE.md) under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA). While the toolchain source code — which is everything outside of the top-level `documentation/` subdirectory — is Copyright © 2021 Raspberry Pi (Trading) Ltd. and licensed under the [BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) licence.
+The Raspberry Pi [documentation](./documentation/) is [licensed](https://github.com/raspberrypi/documentation/blob/develop/LICENSE.md) under a Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA). While the toolchain source code — which is everything outside of the top-level `documentation/` subdirectory — is Copyright © 2021 Raspberry Pi Ltd and licensed under the [BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) licence.

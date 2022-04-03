@@ -1,6 +1,6 @@
 == Setting up a Headless Raspberry Pi
 
-If you do not use a monitor or keyboard to run your Pi (known as headless), but you still need to do some wireless setup, there is a facility to enable wireless networking and SSH when creating a image.
+If you do not use a monitor or keyboard to run your Raspberry Pi (known as headless), but you still need to do some wireless setup, there is a facility to enable wireless networking and SSH when creating an image.
 
 Once an image is created on an SD card, by inserting it into a card reader on a Linux or Windows machines the xref:configuration.adoc#the-boot-folder[boot folder] can be accessed. Adding certain files to this folder will activate certain setup features on the first boot of the Raspberry Pi.
 
@@ -53,4 +53,4 @@ network={
 
 NOTE: Some older Raspberry Pi boards and some USB wireless dongles do not support 5GHz networks.
 
-NOTE: With no keyboard or monitor, you will need some way of xref:remote-access.adoc#remote-access[remotely accessing] your headless Raspberry Pi. For headless setup, SSH can be enabled by placing a file named `ssh`, without any extension, onto the boot folder of the SD Card. For more information see the section on xref:remote-access.adoc#ssh[setting up an SSH server].
+NOTE: With no keyboard or monitor, you will need some way of xref:remote-access.adoc[remotely accessing] your headless Raspberry Pi. For headless setup, SSH can be enabled by placing a file named `ssh`, without any extension, onto the boot folder of the SD Card. For more information see the section on xref:remote-access.adoc#ssh[setting up an SSH server].

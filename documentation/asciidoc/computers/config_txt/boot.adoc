@@ -17,7 +17,7 @@ These provide a shortcut to some alternative `start_file` and `fixup_file` setti
   fixup_file=fixup_x.dat
 ----
 
-On the Pi 4, if the files `start4x.elf` and `fixup4x.dat` are present, these files will be used instead.
+On the Raspberry Pi 4, if the files `start4x.elf` and `fixup4x.dat` are present, these files will be used instead.
 
 `start_debug=1` implies
 ----
@@ -37,13 +37,15 @@ Set the `disable_commandline_tags` command to `1` to stop `start.elf` from filli
 
 === `kernel`
 
-`kernel` is the alternative filename on the boot partition to use when loading the kernel. The default value on the Pi 1, Pi Zero, and Compute Module is `kernel.img`, and on the Pi 2, Pi 3, and Compute Module 3 it is `kernel7.img`. On the Pi4, it is `kernel7l.img`.
+`kernel` is the alternative filename on the boot partition to use when loading the kernel. The default value on the Raspberry Pi 1, Zero and Zero W, and Raspberry Pi Compute Module 1 is `kernel.img`. The default value on the Raspberry Pi 2, 3, 3+ and Zero 2 W, and Raspberry Pi Compute Modules 3 and 3+ is `kernel7.img`. The default value on the Raspberry Pi 4 and 400, and Raspberry Pi Compute Module 4 is `kernel7l.img`.
 
 === `arm_64bit`
 
-If set to non-zero, forces the kernel loading system to assume a 64-bit kernel, starts the processors up in 64-bit mode, and sets `kernel8.img` to be the kernel image loaded, unless there is an explicit `kernel` option defined in which case that is used instead. Defaults to 0 on all platforms. *NOTE*: 64-bit kernels may be uncompressed image files or a gzip archive of an image (which can still be called kernel8.img; the bootloader will recognize the archive from the signature bytes at the beginning).
+If set to non-zero, forces the kernel loading system to assume a 64-bit kernel, starts the processors up in 64-bit mode, and sets `kernel8.img` to be the kernel image loaded, unless there is an explicit `kernel` option defined in which case that is used instead. Defaults to 0 on all platforms. 
 
-Note that the 64-bit kernel will only work on the Pi4, Pi3, and Pi2B rev1.2 boards with latest firmware.
+NOTE: 64-bit kernels may be uncompressed image files or a gzip archive of an image (which can still be called kernel8.img; the bootloader will recognize the archive from the signature bytes at the beginning).
+
+NOTE: The 64-bit kernel will only work on the Raspberry Pi 3, 3+, 4, 400, Zero 2 W and 2B rev 1.2, and Raspberry Pi Compute Modules 3, 3+ and 4.
 
 === `arm_control`
 
@@ -53,19 +55,19 @@ Sets board-specific control bits.
 
 === `armstub`
 
-`armstub` is the filename on the boot partition from which to load the ARM stub. The default ARM stub is stored in firmware and is selected automatically based on the Pi model and various settings.
+`armstub` is the filename on the boot partition from which to load the ARM stub. The default ARM stub is stored in firmware and is selected automatically based on the Raspberry Pi model and various settings.
 
 The stub is a small piece of ARM code that is run before the kernel. Its job is to set up low-level hardware like the interrupt controller before passing control to the kernel.
 
 === `arm_peri_high`
 
-Set `arm_peri_high` to `1` to enable "High Peripheral" mode on the Pi 4. It is set automatically if a suitable DTB is loaded.
+Set `arm_peri_high` to `1` to enable "High Peripheral" mode on the Raspberry Pi 4. It is set automatically if a suitable DTB is loaded.
 
 NOTE: Enabling "High Peripheral" mode without a compatible device tree will make your system fail to boot. Currently ARM stub support is missing, so you will also need to load a suitable file using `armstub`.
 
 === `kernel_address`
 
-`kernel_address` is the memory address to which the kernel image should be loaded. 32-bit kernels are loaded to address `0x8000` by default, and 64-bit kernels to address `0x80000`. If `kernel_old` is set, kernels are loaded to the address `0x0`.
+`kernel_address` is the memory address to which the kernel image should be loaded. 32-bit kernels are loaded to address `0x8000` by default, and 64-bit kernels to address `0x200000`. If `kernel_old` is set, kernels are loaded to the address `0x0`.
 
 === `kernel_old`
 
@@ -75,7 +77,7 @@ Set `kernel_old` to `1` to load the kernel to the memory address `0x0`.
 
 `ramfsfile` is the optional filename on the boot partition of a `ramfs` to load. 
 
-NOTE: Newer firmware supports the loading of multiple `ramfs` files. You should separate the multiple file names with commas, taking care not to exceed the 80-character line length limit. All the loaded files are concatenated in memory and treated as a single `ramfs` blob. More information is available https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=10532[on the forums].
+NOTE: Newer firmware supports the loading of multiple `ramfs` files. You should separate the multiple file names with commas, taking care not to exceed the 80-character line length limit. All the loaded files are concatenated in memory and treated as a single `ramfs` blob. More information is available https://forums.raspberrypi.com/viewtopic.php?f=63&t=10532[on the forums].
 
 === `ramfsaddr`
 
@@ -93,13 +95,13 @@ NOTE: This option uses different syntax from all the other options, and you shou
 
 === `init_uart_clock`
 
-`init_uart_clock` is the initial UART clock frequency. The default value is `48000000` (48MHz). Note that this clock only applies to UART0 (ttyAMA0 in Linux), and that the maximum baudrate for the UART is limited to 1/16th of the clock. The default UART on the Pi 3 and Pi Zero is UART1 (ttyS0 in Linux), and its clock is the core VPU clock - at least 250MHz.
+`init_uart_clock` is the initial UART clock frequency. The default value is `48000000` (48MHz). Note that this clock only applies to UART0 (ttyAMA0 in Linux), and that the maximum baudrate for the UART is limited to 1/16th of the clock. The default UART on the Raspberry Pi 3 and Raspberry Pi Zero is UART1 (ttyS0 in Linux), and its clock is the core VPU clock - at least 250MHz.
 
 === `bootcode_delay`
 
 The `bootcode_delay` command delays for a given number of seconds in `bootcode.bin` before loading `start.elf`: the default value is `0`.
 
-This is particularly useful to insert a delay before reading the EDID of the monitor, for example if the Pi and monitor are powered from the same source, but the monitor takes longer to start up than the Pi. Try setting this value if the display detection is wrong on initial boot, but is correct if you soft-reboot the Pi without removing power from the monitor.
+This is particularly useful to insert a delay before reading the EDID of the monitor, for example if the Raspberry Pi and monitor are powered from the same source, but the monitor takes longer to start up than the Raspberry Pi. Try setting this value if the display detection is wrong on initial boot, but is correct if you soft-reboot the Raspberry Pi without removing power from the monitor.
 
 === `boot_delay`
 
@@ -109,6 +111,12 @@ The `boot_delay` command instructs to wait for a given number of seconds in `sta
 
 The `boot_delay_ms` command means wait for a given number of milliseconds in `start.elf`, together with `boot_delay`, before loading the kernel. The default value is `0`.
 
+
+[[disable_poe_fan]]
+=== `disable_poe_fan`
+
+By default, a probe on the I2C bus will happen at startup, even when a PoE HAT is not attached. Setting this option to 1 disables control of a PoE HAT fan through I2C (on pins ID_SD & ID_SC). If you are not intending to use a PoE HAT doing this is useful if you need to minimise boot time.
+
 === `disable_splash`
 
 If `disable_splash` is set to `1`, the rainbow splash screen will not be shown on boot. The default value is `0`.
@@ -116,6 +124,10 @@ If `disable_splash` is set to `1`, the rainbow splash screen will not be shown o
 === `enable_gic` (Raspberry Pi 4 Only)
 
 On the Raspberry Pi 4B, if this value is set to `0` then the interrupts will be routed to the ARM cores using the legacy interrupt controller, rather than via the GIC-400. The default value is `1`.
+
+=== `enable_uart`
+
+`enable_uart=1` (in conjunction with `console=serial0` in `cmdline.txt`) requests that the kernel creates a serial console, accessible using GPIOs 14 and 15 (pins 8 and 10 on the 40-pin header). Editing `cmdline.txt` to remove the line `quiet` enables boot messages from the kernel to also appear there. See also `uart_2ndstage`.
 
 === `force_eeprom_read`
 
@@ -133,6 +145,16 @@ In an attempt to reduce the chance of a non-bootable system, the firmware first 
 NOTE: Any user-specified OS file can bypass all prefixes by using an absolute path (with respect to the boot partition) - just start the file path with a `/`, e.g. `kernel=/my_common_kernel.img`.
 
 See also <<overlay_prefix,`overlay_prefix`>> and <<upstream_kernel,`upstream_kernel`>>.
+
+==== `otg_mode` (Raspberry Pi 4 Only)
+
+USB On-The-Go (often abbreviated to OTG) is a feature that allows supporting USB devices with an appropriate OTG cable to configure themselves as USB hosts. On older Raspberry Pis, a single USB 2 controller was used in both USB host and device mode.
+
+Raspberry Pi 4B and Raspberry Pi 400 (not CM4 or CM4IO) add a high performance USB 3 controller, attached via PCIe, to drive the main USB ports. The legacy USB 2 controller is still available on the USB-C power connector for use as a device (`otg_mode=0`, the default).
+
+`otg_mode=1` requests that a more capable XHCI USB 2 controller is used as another host controller on that USB-C connector. 
+
+NOTE: Because CM4 and CM4IO don't include the external USB 3 controller, Raspberry Pi OS images set `otg_mode=1` on CM4 for better performance.
 
 [[overlay_prefix]]
 === `overlay_prefix`
@@ -153,4 +175,3 @@ Be aware that output is likely to interfere with Bluetooth operation unless it i
 If `upstream_kernel=1` is used, the firmware sets <<os_prefix,`os_prefix`>> to "upstream/", unless it has been explicitly set to something else, but like other `os_prefix` values it will be ignored if the required kernel and .dtb file can't be found when using the prefix.
 
 The firmware will also prefer upstream Linux names for DTBs (`bcm2837-rpi-3-b.dtb` instead of `bcm2710-rpi-3-b.dtb`, for example). If the upstream file isn't found the firmware will load the downstream variant instead  and automatically apply the "upstream" overlay to make some adjustments. Note that this process happens _after_ the `os_prefix` has been finalised.
-
