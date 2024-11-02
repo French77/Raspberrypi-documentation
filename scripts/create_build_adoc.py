@@ -13,30 +13,21 @@ def check_no_markdown(filename):
         if re.search('```\n.*?\n```', asciidoc):
             raise Exception("{} uses triple-backticks for markup - please use four-hyphens instead".format(filename))
         # strip out code blocks
-        asciidoc = re.sub('----\n.*?\n----', '', asciidoc, flags=re.DOTALL)
+        asciidoc = re.sub(r'----\n.*?\n----', '', asciidoc, flags=re.DOTALL)
         # strip out pass-through blocks
-        asciidoc = re.sub('\+\+\+\+\n.*?\n\+\+\+\+', '', asciidoc, flags=re.DOTALL)
+        asciidoc = re.sub(r'\+\+\+\+\n.*?\n\+\+\+\+', '', asciidoc, flags=re.DOTALL)
         if re.search('(?:^|\n)#+', asciidoc):
             raise Exception("{} contains a Markdown-style header (i.e. '#' rather than '=')".format(filename))
         if re.search(r'(\[.+?\]\(.+?\))', asciidoc):
             raise Exception("{} contains a Markdown-style link (i.e. '[title](url)' rather than 'url[title]')".format(filename))
 
-
 if __name__ == "__main__":
-    if len(sys.argv) == 7:
-        index_json = sys.argv[1]
-        config_yaml = sys.argv[2]
-        github_edit = sys.argv[3]
-        src_adoc = sys.argv[4]
-        includes_dir = sys.argv[5]
-        build_adoc = sys.argv[6]
-    elif len(sys.argv) == 6:
-        index_json = sys.argv[1]
-        config_yaml = sys.argv[2]
-        github_edit = None
-        src_adoc = sys.argv[3]
-        includes_dir = sys.argv[4]
-        build_adoc = sys.argv[5]
+    index_json = sys.argv[1]
+    config_yaml = sys.argv[2]
+    github_edit = sys.argv[3]
+    src_adoc = sys.argv[4]
+    includes_dir = sys.argv[5]
+    build_adoc = sys.argv[6]
 
     output_subdir = os.path.basename(os.path.dirname(build_adoc))
     adoc_filename = os.path.basename(build_adoc)
@@ -54,36 +45,38 @@ if __name__ == "__main__":
                         break
                 if index_title is not None:
                     break
-            elif 'from_json' in tab:
-                index_title = tab['title']
-                break
     if index_title is None:
         raise Exception("Couldn't find title for {} in {}".format(os.path.join(output_subdir, adoc_filename), index_json))
 
     with open(config_yaml) as config_fh:
         site_config = yaml.safe_load(config_fh)
 
-    if github_edit is not None:
-        with open(github_edit) as edit_fh:
-            edit_template = edit_fh.read()
-            template_vars = {
-                'github_edit_link': os.path.join(site_config['githuburl'], 'blob', site_config['githubbranch_edit'], src_adoc)
-            }
-            edit_text = re.sub('{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
+    with open(github_edit) as edit_fh:
+        edit_template = edit_fh.read()
+        template_vars = {
+            'github_edit_link': os.path.join(site_config['githuburl'], 'blob', site_config['githubbranch_edit'], src_adoc)
+        }
+        edit_text = re.sub(r'{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
 
     new_contents = ''
     seen_header = False
     with open(src_adoc) as in_fh:
         for line in in_fh.readlines():
-            if line.startswith('== '):
+            if re.match(r'^=+ ', line) is not None:
                 if not seen_header:
                     seen_header = True
                     if github_edit is not None:
                         line += edit_text + "\n\n"
             else:
-                m = re.match('^(include::)(.+)(\[\]\n?)$', line)
+                m = re.match(r'^(include::)(.+)(\[\]\n?)$', line)
                 if m:
                     line = m.group(1) + os.path.join('{includedir}/{parentdir}', m.group(2)) + m.group(3)
+                # find all image references, append md5 hash at end to bust the cache if we change the image
+                m = re.match(r'^(image::)(.+)(\[(.+)]\n?)$', line)
+                if m:
+                    directory = os.path.dirname(os.path.abspath(src_adoc))
+                    image_hash = hashlib.md5(open(os.path.join(directory, m.group(2)),'rb').read()).hexdigest()
+                    line = m.group(1) + m.group(2) + '?hash=' + image_hash + m.group(3) + "\n"
             new_contents += line
 
     with open(build_adoc, 'w') as out_fh:
@@ -93,6 +86,8 @@ if __name__ == "__main__":
 :doctitle: {}
 :page-sub_title: {}
 :sectanchors:
+:figure-caption!:
+:source-highlighter: rouge
 
 {}
-""".format(output_subdir, includes_dir, '{} - {}'.format(site_config['title'], index_title), index_title, new_contents))
+""".format(output_subdir, includes_dir, '{} - {}'.format(index_title, site_config['title']), index_title, new_contents))

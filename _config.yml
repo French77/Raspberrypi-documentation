@@ -25,6 +25,7 @@ githubbranch_edit: develop
 # Build settings
 theme: minima
 plugins:
+  - asciidoctor-tabs
   - jekyll-asciidoc
   - jekyll-feed
 
@@ -36,9 +37,10 @@ destination: documentation/html
 
 sass:
     sass_dir: css
+    quiet_deps: true
 
-# doxygen config
-doxygen_release: 1.5.0
+asciidoctor:
+    template_dir: build/jekyll/_templates
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

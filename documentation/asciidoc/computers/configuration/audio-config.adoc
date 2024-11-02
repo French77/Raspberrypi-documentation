@@ -1,35 +1,38 @@
-== Audio Configuration
+== Audio
 
-The Raspberry Pi has up to three audio output modes: HDMI 1 and 2, if present, and a headphone jack. You can switch between these modes at any time.
+Raspberry Pi OS has multiple audio output modes: HDMI 1, the headphone jack (if your device has one), and USB audio.
 
-If your HDMI monitor or TV has built-in speakers, the audio can be played over the HDMI cable, but you can switch it to a set of headphones or other speakers plugged into the headphone jack. If your display claims to have speakers, sound is output via HDMI by default; if not, it is output via the headphone jack. This may not be the desired output setup, or the auto-detection is inaccurate, in which case you can manually switch the output.
+By default, Raspberry Pi OS outputs audio to HDMI 1. If no HDMI output is available, Raspberry Pi OS outputs audio to the headphone jack or a connected USB audio device.
 
-=== Changing the Audio Output
+=== Change audio output
 
-There are two ways of setting the audio output; using the desktop volume control, or using the `raspi-config` command line tool.
+This section explains the different methods that you can use to configure audio output in Raspberry Pi OS.
 
-==== Using the Desktop
+==== via the desktop volume control
 
-Right-clicking the volume icon on the desktop taskbar brings up the audio output selector; this allows you to select between the internal audio outputs. It also allows you to select any external audio devices, such as USB sound cards and Bluetooth audio devices. A green tick is shown against the currently selected audio output device -- simply left-click the desired output in the pop-up menu to change this. The volume control and mute operate on the currently selected device.
+Right-click the volume icon on the system tray to open the **audio output selector**. This interface lets you choose an audio output device. Click an audio output device to switch audio output to that device.
 
-==== Using raspi-config
+===== Pro Audio profile
 
-Open up xref:configuration.adoc#raspi-config[raspi-config] by entering the following into the command line:
+You may see a device profile named Pro Audio when viewing an audio device in the audio output selector. This profile exposes the maximum number of channels across every audio device, allowing you greater control over the routing of signals. Unless you require fine-tuned control over audio output, use a different device profile.
 
+For more information about the Pro Audio profile, visit https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/FAQ#what-is-the-pro-audio-profile[PipeWire's FAQ].
+
+==== via `raspi-config`
+
+To change your audio output using xref:configuration.adoc#raspi-config[`raspi-config`], run the following command:
+
+[source,console]
 ----
-sudo raspi-config
+$ sudo raspi-config
 ----
 
-This will open the configuration screen:
+You should see a configuration screen. Complete the following steps to change your audio output:
 
-Select `System Options` (Currently option 1, but yours may be different) and press `Enter`.
+. Select `System options` and press `Enter`.
 
-Now select the Option named, `Audio` (Currently option S2, but yours may be different) and press `Enter`:
+. Select the `Audio` option and press `Enter`.
 
-Select your required mode, press `Enter` and press the right arrow key to exit the options list, then select `Finish` to exit the configuration tool.
+. Select your required mode and press `Enter` to select that mode.
 
-After you have finished modifying your audio settings, you need to restart your Raspberry Pi in order for your changes to take effect.
-
-=== Troubleshooting your HDMI
-
-In some rare cases, it is necessary to edit `config.txt` to force HDMI mode (as opposed to DVI mode, which does not send sound). You can do this by editing `/boot/config.txt` and setting `hdmi_drive=2`, then rebooting for the change to take effect.
+. Press the right arrow key to exit the options list. Select `Finish` to exit the configuration tool.

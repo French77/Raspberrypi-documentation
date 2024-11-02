@@ -4,19 +4,19 @@ NOTE: The following instructions are terse, and Linux-based only. For detailed s
 
 Install CMake (at least version 3.13), and GCC cross compiler
 
+[source,console]
 ----
 $ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
 ----
 
-Set up your project to point to use the Raspberry Pi Pico SDK
+Set up your project to point to use the Raspberry Pi Pico SDK by cloning the SDK locally:
 
-Either by cloning the SDK locally (most common) :
-
+[source,console]
 ----
 $ git clone https://github.com/raspberrypi/pico-sdk.git
 ----
 
-Copy `pico_sdk_import.cmake` from the SDK into your project directory
+Copy `external/pico_sdk_import.cmake` from the SDK into your project directory
 
 Set `PICO_SDK_PATH` to the SDK location in your environment, or pass it (`-DPICO_SDK_PATH=`) to `cmake` later.
 
@@ -37,78 +37,11 @@ pico_sdk_init()
 # rest of your project
 ----
 
-Or with the Raspberry Pi Pico SDK as a submodule :
-
-Clone the SDK as a submodule called `pico-sdk`
-
-Setup a `CMakeLists.txt` like:
-
-----
-cmake_minimum_required(VERSION 3.13)
-
-# initialize pico-sdk from submodule
-# note: this must happen before project()
-include(pico-sdk/pico_sdk_init.cmake)
-
-project(my_project)
-
-# initialize the Raspberry Pi Pico SDK
-pico_sdk_init()
-
-# rest of your project
-----
-
-Or with automatic download from GitHub :
-
-Copy `pico_sdk_import.cmake` from the SDK into your project directory
-
-Setup a `CMakeLists.txt` like:
-
-----
-cmake_minimum_required(VERSION 3.13)
-
-# initialize pico-sdk from GIT
-# (note this can come from environment, CMake cache etc)
-set(PICO_SDK_FETCH_FROM_GIT on)
-
-# pico_sdk_import.cmake is a single file copied from this SDK
-# note: this must happen before project()
-include(pico_sdk_import.cmake)
-
-project(my_project)
-
-# initialize the Raspberry Pi Pico SDK
-pico_sdk_init()
-
-# rest of your project
-----
-
-Or by cloning the SDK locally, but without copying `pico_sdk_import.cmake`:
-
-----
-$ git clone this Raspberry Pi Pico SDK repository
-----
-
-Setup a `CMakeLists.txt` like:
-
-----
-cmake_minimum_required(VERSION 3.13)
-
-# initialize the SDK directly
-include(/path/to/pico-sdk/pico_sdk_init.cmake)
-
-project(my_project)
-
-# initialize the Raspberry Pi Pico SDK
-pico_sdk_init()
-
-# rest of your project
-----
-
-Write your code (see https://github.com/raspberrypi/pico-examples[pico-examples] or the https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-c-sdk.pdf[Raspberry Pi Pico C/{cpp} SDK] book for more information)
+Go ahead and write your code, see https://github.com/raspberrypi/pico-examples[pico-examples] or the https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-c-sdk.pdf[Raspberry Pi Pico C/{cpp} SDK] book for more information on how to go about that.
 
 About the simplest you can do is a single source file (e.g. `hello_world.c`)
 
+[source,c]
 ----
 #include <stdio.h>
 #include "pico/stdlib.h"
@@ -120,7 +53,7 @@ int main() {
 }
 ----
 
-And add the following to your CMakeLists.txt:
+and add the following to your CMakeLists.txt:
 
 ----
 add_executable(hello_world
@@ -138,6 +71,7 @@ NOTE: This example uses the default UART for stdout; if you want to use the defa
 
 Setup a CMake build directory. For example, if not using an IDE:
 
+[source,console]
 ----
 $ mkdir build
 $ cd build
@@ -152,6 +86,7 @@ For a list of boards defined in the SDK itself, look in https://github.com/raspb
 
 Make your target from the build directory you created.
 
+[source,console]
 ----
 $ make hello_world
 ----

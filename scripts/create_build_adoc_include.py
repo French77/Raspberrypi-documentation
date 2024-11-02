@@ -4,6 +4,7 @@ import sys
 import os
 import re
 import yaml
+import hashlib
 
 
 def check_no_markdown(filename):
@@ -12,9 +13,9 @@ def check_no_markdown(filename):
         if re.search('```\n.*?\n```', asciidoc):
             raise Exception("{} uses triple-backticks for markup - please use four-hyphens instead".format(filename))
         # strip out code blocks
-        asciidoc = re.sub('----\n.*?\n----', '', asciidoc, flags=re.DOTALL)
+        asciidoc = re.sub(r'----\n.*?\n----', '', asciidoc, flags=re.DOTALL)
         # strip out pass-through blocks
-        asciidoc = re.sub('\+\+\+\+\n.*?\n\+\+\+\+', '', asciidoc, flags=re.DOTALL)
+        asciidoc = re.sub(r'\+\+\+\+\n.*?\n\+\+\+\+', '', asciidoc, flags=re.DOTALL)
         if re.search('(?:^|\n)#+', asciidoc):
             raise Exception("{} contains a Markdown-style header (i.e. '#' rather than '=')".format(filename))
         if re.search(r'(\[.+?\]\(.+?\))', asciidoc):
@@ -37,17 +38,24 @@ if __name__ == "__main__":
         template_vars = {
             'github_edit_link': os.path.join(site_config['githuburl'], 'blob', site_config['githubbranch_edit'], src_adoc)
         }
-        edit_text = re.sub('{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
+        edit_text = re.sub(r'{{\s*(\w+)\s*}}', lambda m: template_vars[m.group(1)], edit_template)
 
     with open(src_adoc) as in_fh:
         new_contents = ''
         seen_header = False
         for line in in_fh.readlines():
-            if line.startswith('== '):
+            if re.match(r'^=+ ', line) is not None:
                 if not seen_header:
                     seen_header = True
                     if github_edit is not None:
                         line += edit_text + "\n\n"
+            else:
+                # find all image references, append md5 hash at end to bust the cache if we change the image
+                m = re.match(r'^(image::)(.+)(\[(.+)]\n?)$', line)
+                if m:
+                    directory = os.path.dirname(os.path.abspath(src_adoc))
+                    image_hash = hashlib.md5(open(os.path.join(directory, m.group(2)),'rb').read()).hexdigest()
+                    line = m.group(1) + m.group(2) + '?hash=' + image_hash + m.group(3) + "\n"
             new_contents += line
 
         with open(build_adoc, 'w') as out_fh:

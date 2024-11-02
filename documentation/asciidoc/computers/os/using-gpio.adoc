@@ -1,69 +1,12 @@
-== GPIO and the 40-pin Header
+== Use GPIO from Python
 
-A powerful feature of the Raspberry Pi is the row of GPIO (general-purpose input/output) pins along the top edge of the board. A 40-pin GPIO header is found on all current Raspberry Pi boards (unpopulated on Raspberry Pi Zero, Raspberry Pi Zero W and Raspberry Pi Zero 2 W). Prior to the Raspberry Pi 1 Model B+ (2014), boards comprised a shorter 26-pin header. The GPIO header on all boards (including the Raspberry Pi 400) have a 0.1" (2.54mm) pin pitch.
+Using the https://gpiozero.readthedocs.io/[GPIO Zero] library makes it easy to control GPIO devices with Python. The library is comprehensively documented at https://gpiozero.readthedocs.io/[gpiozero.readthedocs.io].
 
-image::images/GPIO-Pinout-Diagram-2.png[GPIO pins]
+For information about GPIO hardware, see xref:../computers/raspberry-pi.adoc#gpio[GPIO hardware].
 
-Any of the GPIO pins can be designated (in software) as an input or output pin and used for a wide range of purposes.
+=== LED control
 
-image::images/GPIO.png[GPIO layout]
-
-NOTE: The numbering of the GPIO pins is not in numerical order; GPIO pins 0 and 1 are present on the board (physical pins 27 and 28) but are reserved for advanced use (see below).
-
-=== Voltages
-
-Two 5V pins and two 3.3V pins are present on the board, as well as a number of ground pins (0V), which are unconfigurable. The remaining pins are all general purpose 3.3V pins, meaning outputs are set to 3.3V and inputs are 3.3V-tolerant.
-
-=== Outputs
-
-A GPIO pin designated as an output pin can be set to high (3.3V) or low (0V).
-
-=== Inputs
-
-A GPIO pin designated as an input pin can be read as high (3.3V) or low (0V). This is made easier with the use of internal pull-up or pull-down resistors. Pins GPIO2 and GPIO3 have fixed pull-up resistors, but for other pins this can be configured in software.
-
-=== More
-
-As well as simple input and output devices, the GPIO pins can be used with a variety of alternative functions, some are available on all pins, others on specific pins.
-
-* PWM (pulse-width modulation)
- ** Software PWM available on all pins
- ** Hardware PWM available on GPIO12, GPIO13, GPIO18, GPIO19
-* SPI
- ** SPI0: MOSI (GPIO10); MISO (GPIO9); SCLK (GPIO11); CE0 (GPIO8), CE1 (GPIO7)
- ** SPI1: MOSI (GPIO20); MISO (GPIO19); SCLK (GPIO21); CE0 (GPIO18); CE1 (GPIO17); CE2 (GPIO16)
-* I2C
- ** Data: (GPIO2); Clock (GPIO3)
- ** EEPROM Data: (GPIO0); EEPROM Clock (GPIO1)
-* Serial
- ** TX (GPIO14); RX (GPIO15)
-
-=== GPIO pinout
-
-A handy reference can be accessed on the Raspberry Pi by opening a terminal window and running the command `pinout`. This tool is provided by the https://gpiozero.readthedocs.io/[GPIO Zero] Python library, which is installed by default in Raspberry Pi OS.
-
-image::images/gpiozero-pinout.png[]
-
-For more details on the advanced capabilities of the GPIO pins see gadgetoid's http://pinout.xyz/[interactive pinout diagram].
-
-WARNING: While connecting up simple components to the GPIO pins is perfectly safe, it's important to be careful how you wire things up. LEDs should have resistors to limit the current passing through them. Do not use 5V for 3.3V components. Do not connect motors directly to the GPIO pins, instead use an https://projects.raspberrypi.org/en/projects/physical-computing/14[H-bridge circuit or a motor controller board].
-
-=== Permissions
-
-In order to use the GPIO ports your user must be a member of the `gpio` group. The `pi` user is a member by default, other users need to be added manually.
-
-[,bash]
-----
-sudo usermod -a -G gpio <username>
-----
-
-=== GPIO in Python
-
-Using the https://gpiozero.readthedocs.io/[GPIO Zero] library makes it easy to get started with controlling GPIO devices with Python. The library is comprehensively documented at https://gpiozero.readthedocs.io/[gpiozero.readthedocs.io].
-
-==== LED
-
-To control an LED connected to GPIO17, you can use this code:
+The following example code controls an LED connected to GPIO17:
 
 [,python]
 ----
@@ -83,9 +26,9 @@ Run this in an IDE like Thonny, and the LED will blink on and off repeatedly.
 
 LED methods include `on()`, `off()`, `toggle()`, and `blink()`.
 
-==== Button
+=== Read button state
 
-To read the state of a button connected to GPIO2, you can use this code:
+The following example code reads the state of a button connected to GPIO2:
 
 [,python]
 ----
@@ -104,11 +47,11 @@ while True:
 
 Button functionality includes the properties `is_pressed` and `is_held`; callbacks `when_pressed`, `when_released`, and `when_held`; and methods `wait_for_press()` and `wait_for_release`.
 
-==== Button + LED
+=== Control an LED with a button
 
-To connect the LED and button together, you can use this code:
+The following example code reads the state of a button connected to GPIO2, and lights an LED connected to GPIO17 when the button is pressed:
 
-[,python]
+[source,python]
 ----
 from gpiozero import LED, Button
 
@@ -124,7 +67,7 @@ while True:
 
 Alternatively:
 
-[,python]
+[source,python]
 ----
 from gpiozero import LED, Button
 
@@ -140,7 +83,7 @@ while True:
 
 or:
 
-[,python]
+[source,python]
 ----
 from gpiozero import LED, Button
 
@@ -151,12 +94,8 @@ button.when_pressed = led.on
 button.when_released = led.off
 ----
 
+[.booklink, booktype="free", link=https://github.com/raspberrypipress/released-pdfs/raw/main/simple-electronics-with-gpio-zero.pdf, image=image::images/simple-electronics-with-gpio-zero.jpg[]]
+
 ==== Going further
 
-[.float-group]
---
-image::images/simple-electronics-with-gpio-zero.jpg[role="related thumb right",link=https://github.com/raspberrypipress/released-pdfs/raw/main/simple-electronics-with-gpio-zero.pdf]
-You can find more information on how to program electronics connected to your Raspberry Pi with the GPIO Zero Python library in the Raspberry Pi Press book https://github.com/raspberrypipress/released-pdfs/raw/main/simple-electronics-with-gpio-zero.pdf[Simple Electronics with GPIO Zero]. Written by Phil King, it is part of the MagPi Essentials series published by Raspberry Pi Press. The book gets you started with the GPIO Zero library, and walks you through how to use it by building a series of projects. 
-
-You can download this book as a PDF file for free, it has been released under a Creative Commons https://creativecommons.org/licenses/by-nc-sa/3.0/[Attribution-NonCommercial-ShareAlike] 3.0 Unported (CC BY NC-SA) licence.
---
+You can find more information on how to program electronics connected to your Raspberry Pi with the GPIO Zero Python library in the Raspberry Pi Press book https://github.com/raspberrypipress/released-pdfs/raw/main/simple-electronics-with-gpio-zero.pdf[Simple Electronics with GPIO Zero]. The book gets you started with the GPIO Zero library, and walks you through how to use it by building a series of projects.

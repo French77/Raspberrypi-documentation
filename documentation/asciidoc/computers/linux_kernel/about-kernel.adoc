@@ -1,23 +1,8 @@
-== Kernel
+[[kernel]]
+== Introduction
 
-The Raspberry Pi kernel is stored in GitHub and can be viewed at https://github.com/raspberrypi/linux[github.com/raspberrypi/linux]; it follows behind the main https://github.com/torvalds/linux[Linux kernel]. The main Linux kernel is continuously updating; we take long-term releases of the kernel, which are mentioned on the front page, and integrate the changes into the Raspberry Pi kernel. We then create a 'next' branch which contains an unstable port of the kernel; after extensive testing and discussion, we push this to the main branch.
+The Raspberry Pi kernel is https://github.com/raspberrypi/linux[hosted on GitHub]; updates lag behind the upstream https://github.com/torvalds/linux[Linux kernel]. The upstream kernel updates continuously, whereas Raspberry Pi integrates **long-term releases** of the Linux kernel into the Raspberry Pi kernel. We generate a `next` branch in https://github.com/raspberrypi/firmware/[raspberrypi/firmware] for each long-term Linux kernel release. After extensive testing and discussion, we merge each `next` branch into the main branch of our repository.
 
-=== Updating your Kernel
+== Update
 
-If you use the standard Raspberry Pi OS xref:os.adoc#updating-and-upgrading-raspberry-pi-os[update and upgrade process], this will automatically update the kernel to the latest stable version. This is the recommended procedure. However, in certain circumstances, you may wish to update to the latest 'bleeding edge' or test kernel. You should only do this if recommended to do so by a Raspberry Pi engineer, or if there is a specific feature only available in this latest software.
-
-=== Getting your Code into the Kernel
-
-There are many reasons you may want to put something into the kernel:
-
-* You've written some Raspberry Pi-specific code that you want everyone to benefit from
-* You've written a generic Linux kernel driver for a device and want everyone to use it
-* You've fixed a generic kernel bug
-* You've fixed a Raspberry Pi-specific kernel bug
-
-Initially, you should fork the https://github.com/raspberrypi/linux[Linux repository] and clone that on your build system; this can be either on the Raspberry Pi or on a Linux machine you're using for cross-compiling. You can then make your changes, test them, and commit them into your fork.
-
-Next, depending upon whether the code is Raspberry Pi-specific or not:
-
-* For Raspberry Pi-specific changes or bug fixes, submit a pull request to the kernel.
-* For general Linux kernel changes (i.e. a new driver), these need to be submitted upstream first. Once they've been submitted upstream and accepted, submit the pull request and we'll receive it.
+The usual Raspberry Pi OS xref:os.adoc#update-software[update process] automatically updates your kernel to the latest stable release. If you want to try the latest unstable test kernel, you can xref:os.adoc#rpi-update[manually update].

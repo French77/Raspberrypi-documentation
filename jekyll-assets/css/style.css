@@ -349,6 +349,10 @@ h6 .anchor::before {
   position: relative;
 }
 
+#content div.admonitionblock div.listingblock {
+  margin-top: 15px;
+}
+
 #content div.listingblock button.copy-button {
   position: absolute;
   top: 1px;
@@ -385,6 +389,7 @@ h6 .anchor::before {
   background-color: #343434;
   padding: 7px 15px 7px;
   overflow-x: auto !important;
+  border-radius: 3px;
 }
 
 #content div.listingblock div.content div.line,
@@ -496,6 +501,11 @@ span.mlabel {
 td code {
   font-size: 1.1em;
   background-color: #dedede;
+  border-radius: 3px;
+}
+
+#content h1 > p > code {
+  background-color: unset;
 }
 
 td div.listingblock div.content code {
@@ -507,6 +517,14 @@ td div.listingblock div.content code {
   margin-bottom: 20px;
   max-width: 100%;
   height: auto;
+}
+
+div.imageblock div.title {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.8em;
+  margin-top: -15px;
+  margin-bottom: 30px;
 }
 
 .w10 { width: 10%; }
@@ -534,6 +552,11 @@ td div.listingblock div.content code {
 #content .imageblock.right,
 #content  .imageblock.right img {
   margin-top: 0px;
+}
+
+#content .imageblock.left img,
+#content  .imageblock.right img {
+  max-width: 250px;
 }
 
 div.admonitionblock table {
@@ -583,7 +606,153 @@ div.videoblock iframe {
   border: 0;
 }
 
+/* WHITEPAPER SIDEBARS */
+
+.whitepaper, .tutorial {
+  margin-bottom: 30px;
+}
+
+.whitepaper .content,
+.tutorial .content {
+  border: 2px solid var(--red);
+  padding: 10px;
+}
+
+.whitepaper::before {
+  content: "White paper";
+  text-transform: uppercase;
+  display: block;
+  color: var(--red);
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.whitepaper div.inner,
+.tutorial div.inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.whitepaper .coverimage {
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-image: url(whitepaper_coverimage.png);
+  background-size: 100px 170px;
+  flex: 0 0 auto;
+  margin-right: 10px;
+  height: 170px;
+  width: 100px;
+  border: 1px solid #cecece;
+  text-align: right;
+  padding: 20px 15px 15px;
+  font-family: monospace;
+  color: var(--red);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+#content .whitepaper .coverimage p.title {
+  font-family: monospace;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+#content .whitepaper h5,
+#content .tutorial h5 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+#content .tutorial div.paragraph.tutorialdescription p {
+  font-style: italic;
+  color: var(--red);
+}
+
+/* TUTORIAL SECTIONS */
+
+#content .tutorialcard {
+  max-width: 400px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+}
+
+#content .tutorialcard p.caption {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 0.9em;
+}
+
+#content p.clear {
+  clear: both;
+  margin-bottom: 0px;
+}
+
+#content .tutorial .tutorialcard {
+  margin-right: 10px;
+  border-radius: 0px;
+  border-width: 0px;
+}
+
+#content .tutorial .tutorialcard img {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#content .tutoriallink .imageblock.left img,
+#content  .tutoriallink .imageblock.right img {
+  max-width: 400px;
+}
+
 /* DOXYGEN ELEMENTS */
+
+.contexttag {
+  display: inline-block;
+  font-size: 0.8em;
+  line-height: 1em;
+  font-weight: bold;
+  background-color: orange;
+  color: #ffffff;
+  border-radius: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.contexttag.RP2040 {
+  background-color: #50C878;
+}
+
+div.listingblock pre.highlight {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#content div.listingblock table.linenotable {
+  margin-bottom: 0px;
+}
+
+#content td.hdlist1 {
+  line-height: 1.5em;
+}
+
+#content td.hdlist2 > p {
+  margin-bottom: 0px;
+}
+
+#content td.linenos {
+  padding-right: 10px;
+}
+
+.highlight td.code pre {
+  background-color: transparent;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/* OLD DOXYGEN ELEMENTS */
 
 div.memproto {
   background-color: #dedede;
@@ -616,6 +785,10 @@ td.paramname {
   font-weight: bold;
 }
 
+table.memname td, table.memname td.paramname {
+  vertical-align: bottom;
+}
+
 ul.memberdecls {
   list-style-type: none;
   padding-left: 0;
@@ -641,6 +814,10 @@ ul.memberdecls li.memdesc {
 p.see span.label {
   display: inline-block;
   margin-right: 5px;
+}
+
+span.obfuscator {
+  display: none;
 }
 
 /* LEGAL */
@@ -705,6 +882,18 @@ footer {
 }
 .c-footer-social__link--youtube {
     background-image: url(https://www.raspberrypi.com/app/themes/mind-control/images/application/footer/social/youtube.svg);
+}
+
+@media screen and (max-width: 1350px) {
+  div.contribute {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .legal {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
 }
 
 @media screen and (max-width: 1200px) {

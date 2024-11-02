@@ -1,4 +1,4 @@
-include::os/using-gpio.adoc[]
+include::raspberry-pi/introduction.adoc[]
 
 include::raspberry-pi/raspberry-pi-schematics.adoc[]
 
@@ -6,17 +6,11 @@ include::raspberry-pi/raspberry-pi-compliance.adoc[]
 
 include::raspberry-pi/frequency-management.adoc[]
 
-include::raspberry-pi/boot-eeprom-rpi4.adoc[]
+include::raspberry-pi/boot-eeprom.adoc[]
 
-include::raspberry-pi/boot-diagnostics-rpi4.adoc[]
+include::raspberry-pi/boot-eeprom-diagnostics.adoc[]
 
 include::raspberry-pi/bootmodes.adoc[]
-
-include::raspberry-pi/bootflow-legacy.adoc[]
-
-include::raspberry-pi/bootflow-2711.adoc[]
-
-include::raspberry-pi/bcm2711-bootloader.adoc[]
 
 include::raspberry-pi/boot-usb.adoc[]
 
@@ -30,19 +24,29 @@ include::raspberry-pi/boot-nvme.adoc[]
 
 include::raspberry-pi/boot-http.adoc[]
 
+include::raspberry-pi/bootflow-legacy.adoc[]
+
+include::raspberry-pi/bootflow-eeprom.adoc[]
+
+include::raspberry-pi/eeprom-bootloader.adoc[]
+
 include::raspberry-pi/display-parallel-interface.adoc[]
 
 include::raspberry-pi/gpio-on-raspberry-pi.adoc[]
 
 include::raspberry-pi/gpio-pad-controls.adoc[]
 
-include::raspberry-pi/peripheral_addresses.adoc[]
-
 include::raspberry-pi/raspberry-pi-industrial.adoc[]
 
 include::raspberry-pi/otp-bits.adoc[]
 
+include::raspberry-pi/pcie.adoc[]
+
+include::raspberry-pi/power-button.adoc[]
+
 include::raspberry-pi/power-supplies.adoc[]
+
+include::raspberry-pi/rtc.adoc[]
 
 include::raspberry-pi/spi-bus-on-raspberry-pi.adoc[]
 

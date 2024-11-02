@@ -1,4 +1,4 @@
-== Network booting using IPv6
+== Network boot using IPv6
 
 There are 4 stages to booting a Raspberry Pi computer over the network:
 
@@ -13,7 +13,7 @@ IMPORTANT: IPv6 netboot is an *experimental alpha feature* and depending on feed
 
 === How it works
 
-To boot via IPv6 you need an updated version of the firmware (e.g. `start4.elf`) and the bootloader. Using the Bullseye release of Raspberry Pi OS and the latest stable bootloader should be sufficient.
+To boot via IPv6 you need an updated version of the firmware (e.g. `start4.elf`) and the bootloader. Using the latest release of Raspberry Pi OS and the latest stable bootloader should be sufficient.
 
 NOTE: The commonly used `dnsmasq` DHCP server doesn't currently support the network boot parameters required for IPv6 network boot, so for the time being you will have to use a different DHCP server such as https://www.isc.org/dhcp/[ISC DHCP].
 
@@ -47,13 +47,13 @@ With IPv4 netboot, `nfsroot` is used to mount `rootfs` over the network. This do
 
 NOTE: A mechanism to boot the Linux kernel with NFS via IPv6 is still to be demonstrated.
 
-=== Test Setup
+=== Test setup
 
 If you want to try this out you will need another Raspberry Pi to act as the TFTP and DHCP server.
 
 The TFTP server can in theory be on any routable network but the DHCP server has to be on the same network as the devices it will serve.
 
-==== TFTP Server
+==== TFTP server
 
 If you have a working IPv4 network boot setup you can reuse the TFTP server in dnsmasq to supply the files (it can talk to both IPv4 and 
 IPv6).
@@ -62,17 +62,17 @@ Alternatively you can use a standalone TFTP server like `tftpd-hpa`.
 
 [,bash]
 ----
-$ sudo apt-get install tftpd-hpa
+$ sudo apt install tftpd-hpa
 $ sudo systemctl start tftpd-hpa
 ----
 
-==== DHCP Server
+==== DHCP server
 
 DHCP in IPv6 has changed a lot. We need DHCP to at least tell us the address of the TFTP server, which in this case is the same machine.
 
 [,bash]
 ----
-$ sudo apt-get install isc-dhcp-server
+$ sudo apt install isc-dhcp-server
 ----
 
 Modify the configuration in `/etc/default/isc-dhcp-server`
@@ -133,7 +133,7 @@ To use IPv6 you really need a router and ISP that supports IPv6. There are sites
 
 [,bash]
 ----
-sudo apt-get install ndisc6
+sudo apt install ndisc6
 rdisc6 -1 eth0
 ----
 
@@ -168,9 +168,9 @@ Retransmit time           :  unspecified (0x00000000)
 
 === Debugging
 
-==== Logs and Traces
+==== Logs and traces
 
-If the boot uart is enabled you should see something like this from the serial port. The lines starting RX6 indicate that IPv6 is in use.
+If the boot UART is enabled, you should see something like this from the serial port. The lines starting RX6 indicate that IPv6 is in use.
 
 Here `dc:a6:32:6f:73:f4` is the MAC address of the TFTP server and it has an IPv6 address of `fd49:869:6f93::1`. The device itself has a MAC address `e4:5f:01:20:24:0b` and an IPv6 address of `fd49:869:6f93::1000`
 
@@ -196,9 +196,10 @@ TFTP_GET: dc:a6:32:6f:73:f4 fd49:869:6f93::1 ab5a4158/config.txt
 Finally the bootloader hands over to firmware which should load the kernel.
 
 ==== Stateful configuration
+
 You can examine network activity with tcpdump.
 
-[,bash]
+[source,console]
 ----
 $ sudo tcpdump -i eth0 -e ip6 -XX -l -v -vv
 ----

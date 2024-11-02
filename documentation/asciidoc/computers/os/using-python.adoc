@@ -1,352 +1,190 @@
-== Python
+== Use Python on a Raspberry Pi
 
-Python is a powerful programming language that's easy to use easy to read and write and, with Raspberry Pi, lets you connect your project to the real world. Python syntax is clean, with an emphasis on readability, and uses standard English keywords.
+Raspberry Pi OS comes with Python 3 pre-installed. Interfering with the system Python installation can cause problems for your operating system. When you install third-party Python libraries, always use the correct package-management tools.
 
-=== Thonny
+On Linux, you can install `python` dependencies in two ways:
 
-The easiest introduction to Python is through https://thonny.org/[Thonny], a Python 3 development environment. You can open Thonny from the desktop or applications menu.
+* use `apt` to install pre-configured system packages
+* use `pip` to install libraries using Python's dependency manager _in a virtual environment_
++
+IMPORTANT: Starting in Raspberry Pi OS _Bookworm_, you can only use `pip` to install into a Python Virtual Environment (`venv`). This change was introduced by the Python community, not by Raspberry Pi: for more information, see https://peps.python.org/pep-0668/[PEP 668].
 
-Thonny gives you a REPL (Read-Evaluate-Print-Loop), which is a prompt you can enter Python commands into. Because it's a REPL, you even get the output of commands printed to the screen without using `print`. In the Thonny application, this is called the Shell window.
+=== Install Python packages using `apt`
 
-You can use variables if you need to but you can even use it like a calculator. For example:
+Packages installed via `apt` are packaged specifically for Raspberry Pi OS. These packages usually come pre-compiled, so they install faster. Because `apt` manages dependencies for all packages, installing with this method includes all of the sub-dependencies needed to run the package. And `apt` ensures that you don't break other packages if you uninstall.
 
-[,python]
+For instance, to install the Python 3 library that supports the Raspberry Pi xref:../accessories/build-hat.adoc[Build HAT], run the following command:
+
+[source,console]
 ----
->>> 1 + 2
-3
->>> name = "Sarah"
->>> "Hello " + name
-'Hello Sarah'
-----
-
-Thonny also has syntax highlighting built in and some support for autocompletion. You can look back on the history of the commands you've entered in the REPL with `Alt + P` (previous) and `Alt + N` (next).
-
-=== Basic Python usage
-
-Hello world in Python:
-
-[,python]
-----
-print("Hello world")
+$ sudo apt install python3-build-hat
 ----
 
-Simple as that!
+To find Python packages distributed with `apt`, xref:os.adoc#search-for-software[use `apt search`]. In most cases, Python packages use the prefix `python-` or `python3-`: for instance, you can find the `numpy` package under the name `python3-numpy`.
 
-==== Indentation
+=== Install Python libraries using `pip`
 
-Some languages use curly braces `{` and `}` to wrap around lines of code which belong together, and leave it to the writer to indent these lines to appear visually nested. However, Python does not use curly braces but instead requires indentation for nesting. For example a `for` loop in Python:
+[[python-on-raspberry-pi]]
 
-[,python]
+==== Bookworm changes to `pip` installation
+
+In older versions of Raspberry Pi OS, you could install libraries directly into the system version of Python using `pip`. Since Raspberry Pi OS _Bookworm_, users cannot install libraries directly into the system version of Python.
+
+Instead, xref:os.adoc#use-pip-with-virtual-environments[install libraries into a virtual environment (`venv`)]. To install a library at the system level for all users, xref:os.adoc#install-python-packages-using-apt[install it with `apt`].
+
+Attempting to install a Python package system-wide outputs an error similar to the following:
+
+[source,console]
 ----
-for i in range(10):
-    print("Hello")
-----
+$ pip install buildhat
+error: externally-managed-environment
 
-The indentation is necessary here. A second line indented would be a part of the loop, and a second line not indented would be outside of the loop. For example:
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+  python3-xyz, where xyz is the package you are trying to
+  install.
 
-[,python]
-----
-for i in range(2):
-    print("A")
-    print("B")
-----
+  If you wish to install a non-Debian-packaged Python package,
+  create a virtual environment using python3 -m venv path/to/venv.
+  Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+  sure you have python3-full installed.
 
-would print:
+  For more information visit http://rptl.io/venv
 
-----
-A
-B
-A
-B
-----
-
-whereas the following:
-
-[,python]
-----
-for i in range(2):
-    print("A")
-print("B")
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
 ----
 
-would print:
+Python users have long dealt with conflicts between OS package managers like `apt` and Python-specific package management tools like `pip`. These conflicts include both Python-level API incompatibilities and conflicts over file ownership.
 
+Starting in Raspberry Pi OS _Bookworm_, packages installed via `pip` _must be installed into a Python virtual environment_ (``venv``). A virtual environment is a container where you can safely install third-party modules so they won't interfere with your system Python.
+
+==== Use `pip` with virtual environments
+
+To use a virtual environment, create a container to store the environment. There are several ways you can do this depending on how you want to work with Python:
+
+[tabs]
+======
+per-project environments::
++
+Many users create separate virtual environments for each Python project. Locate the virtual environment in the root folder of each project, typically with a shared name like `env`. Run the following command from the root folder of each project to create a virtual environment configuration folder:
++
+[source,console]
 ----
-A
-A
-B
+$ python -m venv env
 ----
-
-==== Variables
-
-To save a value to a variable, assign it like so:
-
-[,python]
++
+Before you work on a project, run the following command from the root of the project to start using the virtual environment:
++
+[source,console]
 ----
-name = "Bob"
-age = 15
+$ source env/bin/activate
 ----
-
-Note that data types were not specified with these variables, as types are inferred, and can be changed later.
-
-[,python]
++
+You should then see a prompt similar to the following:
++
+[source,console?prompt=(env) $]
 ----
-age = 15
-age += 1  # increment age by 1
-print(age)
+(env) $
 ----
-
-This time I used comments beside the increment command.
-
-==== Comments
-
-Comments are ignored in the program but there for you to leave notes, and are denoted by the hash `#` symbol. Multi-line comments use triple quotes like so:
-
-[,python]
++
+When you finish working on a project, run the following command from any directory to leave the virtual environment:
++
+[source,console?prompt=(env) $]
 ----
-"""
-This is a very simple Python program that prints "Hello".
-That's all it does.
-"""
-
-print("Hello")
+(env) $ deactivate
 ----
 
-==== Lists
-
-Python also has lists (called arrays in some languages) which are collections of data of any type:
-
-[,python]
+per-user environments::
++
+Instead of creating a virtual environment for each of your Python projects, you can create a single virtual environment for your user account. **Activate that virtual environment before running any of your Python code.** This approach can be more convenient for workflows that share many libraries across projects.
++
+When creating a virtual environment for multiple projects across an entire user account, consider locating the virtual environment configuration files in your home directory. Store your configuration in a https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#Unix_and_Unix-like_environments[folder whose name begins with a period] to hide the folder by default, preventing it from cluttering your home folder.
++
+Use the following command to create a virtual environment in a hidden folder in the current user's home directory:
++
+[source,console]
 ----
-numbers = [1, 2, 3]
+$ python -m venv ~/.env
 ----
-
-Lists are denoted by the use of square brackets `[]` and each item is separated by a comma.
-
-==== Iteration
-
-Some data types are iterable, which means you can loop over the values they contain. For example a list:
-
-[,python]
++
+Run the following command from any directory to start using the virtual environment:
++
+[source,console]
 ----
-numbers = [1, 2, 3]
-
-for number in numbers:
-    print(number)
+$ source ~/.env/bin/activate
 ----
-
-This takes each item in the list `numbers` and prints out the item:
-
++
+You should then see a prompt similar to the following:
++
+[source,console?prompt=(.env) $]
 ----
-1
-2
-3
+(.env) $
 ----
-
-Note I used the word `number` to denote each item. This is merely the word I chose for this - it's recommended you choose descriptive words for variables - using plurals for lists, and singular for each item makes sense. It makes it easier to understand when reading.
-
-Other data types are iterable, for example the string:
-
-[,python]
++
+To leave the virtual environment, run the following command from any directory:
++
+[source,console?prompt=(.env) $]
 ----
-dog_name = "BINGO"
-
-for char in dog_name:
-    print(char)
+(.env) $ deactivate
 ----
+======
 
-This loops over each character and prints them out:
+===== Create a virtual environment
 
+Run the following command to create a virtual environment configuration folder, replacing `<env-name>` with the name you would like to use for the virtual environment (e.g. `env`):
+
+[source,console]
 ----
-B
-I
-N
-G
-O
+$ python -m venv <env-name>
 ----
 
-==== Range
+TIP: Pass the `--system-site-packages` flag before the folder name to preload all of the currently installed packages in your system Python installation into the virtual environment.
 
-The integer data type is not iterable and trying to iterate over it will produce an error. For example:
+===== Enter a virtual environment
 
-[,python]
+Then, execute the `bin/activate` script in the virtual environment configuration folder to enter the virtual environment:
+
+[source,console]
 ----
-for i in 3:
-    print(i)
-----
-
-will produce:
-
-[,python]
-----
-TypeError: 'int' object is not iterable
+$ source <env-name>/bin/activate
 ----
 
-image::images/python-error.png[Python error]
+You should then see a prompt similar to the following:
 
-However you can make an iterable object using the `range` function:
-
-[,python]
+[source,console?prompt=(<env-name>) $]
 ----
-for i in range(3):
-    print(i)
+(<env-name>) $
 ----
 
-`range(5)` contains the numbers `0`, `1`, `2`, `3` and `4` (five numbers in total). To get the numbers `1` to `5` (inclusive) use `range(1, 6)`.
+The `(<env-name>)` command prompt prefix indicates that the current terminal session is in a virtual environment named `<env-name>`.
 
-==== Length
+To check that you're in a virtual environment, use `pip list` to view the list of installed packages:
 
-You can use functions like `len` to find the length of a string or a list:
-
-[,python]
+[source,console?prompt=(<env-name>) $]
 ----
-name = "Jamie"
-print(len(name))  # 5
-
-names = ["Bob", "Jane", "James", "Alice"]
-print(len(names))  # 4
+(<env-name>) $ pip list
+Package    Version
+---------- -------
+pip        23.0.1
+setuptools 66.1.1
 ----
 
-==== If statements
+The list should be much shorter than the list of packages installed in your system Python. You can now safely install packages with `pip`. Any packages you install with `pip` while in a virtual environment only install to that virtual environment. In a virtual environment, the `python` or `python3` commands automatically use the virtual environment's version of Python and installed packages instead of the system Python.
 
-You can use `if` statements for control flow:
+===== Exit a virtual environment
 
-[,python]
+To leave a virtual environment, run the following command:
+
+[source,console?prompt=(<env-name>) $]
 ----
-name = "Joe"
-
-if len(name) > 3:
-    print("Nice name,")
-    print(name)
-else:
-    print("That's a short name,")
-    print(name)
+(<env-name>) $ deactivate
 ----
 
-=== Python files in Thonny
+=== Use the Thonny editor
 
-To create a Python file in Thonny, click `File > New` and you'll be given a +++<untitled>+++window. This is an empty file, not a Python prompt. You write a Python file in this window, save it, then run it and you'll see the output in the other window.+++</untitled>+++
+We recommend https://thonny.org/[Thonny] for editing Python code on the Raspberry Pi.
 
-For example, in the new window, type:
+By default, Thonny uses the system Python. However, you can switch to using a Python virtual environment by clicking on the **interpreter menu** in the bottom right of the Thonny window. Select a configured environment or configure a new virtual environment with `Configure interpreter...`.
 
-[,python]
-----
-n = 0
-
-for i in range(1, 101):
-    n += i
-
-print("The sum of the numbers 1 to 100 is:")
-print(n)
-----
-
-Then save this file (`File > Save` or `Ctrl + S`) and run (`Run > Run Module` or hit `F5`) and you'll see the output in your original Python window.
-
-=== Using the Command Line
-
-You can write a Python file in a standard editor, and run it as a Python script from the command line. Just navigate to the directory the file is saved in (use `cd` and `ls` for guidance) and run with `python3`, e.g. `python3 hello.py`.
-
-image::images/run-python.png[Python command line]
-
-=== Other Ways of Using Python
-
-The standard built-in Python shell is accessed by typing `python3` in the terminal.
-
-This shell is a prompt ready for Python commands to be entered. You can use this in the same way as Thonny, but it does not have syntax highlighting or autocompletion. You can look back on the history of the commands you've entered in the REPL by using the +++<kbd>+++Up/Down+++</kbd>+++ keys. Use `Ctrl + D` to exit.
-
-==== IPython
-
-IPython is an interactive Python shell with syntax highlighting, autocompletion, pretty printing, built-in documentation, and more. IPython is not installed by default. Install with:
-
-[,bash]
-----
-sudo pip3 install ipython
-----
-
-Then run with `ipython` from the command line. It works like the standard `python3`, but has more features. Try typing `len?` and hitting `Enter`. You're shown information including the docstring for the `len` function:
-
-[,python]
-----
-Type:       builtin_function_or_method
-String Form:<built-in function len>
-Namespace:  Python builtin
-Docstring:
-len(object) -> integer
-
-Return the number of items of a sequence or mapping.
-----
-
-Try the following dictionary comprehension:
-
-[,python]
-----
-{i: i ** 3 for i in range(12)}
-----
-
-This will pretty print the following:
-
-[,python]
-----
-{0: 0,
- 1: 1,
- 2: 8,
- 3: 27,
- 4: 64,
- 5: 125,
- 6: 216,
- 7: 343,
- 8: 512,
- 9: 729,
- 10: 1000,
- 11: 1331}
-----
-
-In the standard Python shell, this would have printed on one line:
-
-[,python]
-----
-{0: 0, 1: 1, 2: 8, 3: 27, 4: 64, 5: 125, 6: 216, 7: 343, 8: 512, 9: 729, 10: 1000, 11: 1331}
-----
-
-image::images/python-vs-ipython.png[Python vs ipython]
-
-You can look back on the history of the commands you've entered in the REPL by using the +++<kbd>+++Up/Down+++</kbd>+++ keys like in `python`. The history also persists to the next session, so you can exit `ipython` and return (or switch between v2/3) and the history remains. Use `Ctrl + D` to exit.
-
-=== Installing Python Libraries
-
-==== apt
-
-Some Python packages can be found in the Raspberry Pi OS archives, and can be installed using apt, for example:
-
-[,bash]
-----
-sudo apt update
-sudo apt install python-picamera
-----
-
-This is a preferable method of installing, as it means that the modules you install can be kept up to date easily with the usual `sudo apt update` and `sudo apt full-upgrade` commands.
-
-==== pip
-
-Not all Python packages are available in the Raspberry Pi OS archives, and those that are can sometimes be out of date. If you can't find a suitable version in the Raspberry Pi OS archives, you can install packages from the http://pypi.python.org/[Python Package Index] (known as PyPI).
-
-To do so, install pip:
-
-[,bash]
-----
-sudo apt install python3-pip
-----
-
-Then install Python packages (e.g. `simplejson`) with `pip3`:
-
-[,bash]
-----
-sudo pip3 install simplejson
-----
-
-===== piwheels
-
-The official Python Package Index (PyPI) hosts files uploaded by package maintainers. Some packages require compilation (compiling C/{cpp} or similar code) in order to install them, which can be a time-consuming task, particlarly on the single-core Raspberry Pi 1 or Raspberry Pi Zero.
-
-piwheels is a service providing pre-compiled packages (called _Python wheels_) ready for use on the Raspberry Pi. Raspberry Pi OS is pre-configured to use piwheels for pip. Read more about the piwheels project at https://www.piwheels.org/[www.piwheels.org].
-
+image::images/thonny-venv.png[width="100%"]

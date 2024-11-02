@@ -18,15 +18,23 @@ for (var i = 0; i < listings.length; i++) {
 var buttons = document.querySelectorAll('button.copy-button');
 
 var showTooltip = function() {
-  console.log("showing");
   var tooltip = this.querySelector("span.tooltip");
   tooltip.className = "tooltip";
 };
 
 var hideTooltip = function() {
-  console.log("hiding");
   var tooltip = this.querySelector("span.tooltip");
   tooltip.className = "tooltip hidden";
+};
+
+var extractDoxygenCode = function(node) {
+  var lines = node.querySelectorAll("div.code");
+  var preText = "";
+  for (var i = 0; i < lines.length; i++) {
+    var myText = lines[i].textContent;
+    preText = preText + myText + "\n";
+  }
+  return preText;
 };
 
 for (var i = 0; i < buttons.length; i++) {
@@ -36,8 +44,20 @@ for (var i = 0; i < buttons.length; i++) {
 
 window.addEventListener('load', function() {
   var clipboard = new ClipboardJS('.copy-button', {
-    target: function(trigger) {
-      return trigger.parentNode.querySelector('pre');
+    text: function(trigger) {
+      if (trigger.parentNode.querySelector('td.code')) {
+        // var text = extractDoxygenCode(trigger.parentNode);
+        var text = trigger.parentNode.querySelector('td.code pre').textContent;
+      } else {
+        var text = trigger.parentNode.querySelector('pre').textContent;
+        
+        // if the code snippet represents a console snippet, do not include the '$ ' prefix when copying
+        if (trigger.parentNode.querySelector('pre > code[data-lang="console"]')) {
+          // apply prefix trimming to each line for multi-line snippets
+          text = text.replaceAll(/^\$\s/gm, "");
+        }
+      }
+      return text;
     },
   });
 
@@ -50,5 +70,10 @@ window.addEventListener('load', function() {
     setTimeout(function() {
       textEl.textContent = '';
     }, 2000);
+  });
+
+  clipboard.on('error', function (e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
   });
 });

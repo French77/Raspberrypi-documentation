@@ -1,6 +1,6 @@
-== LED Warning Flash Codes
+== LED warning flash codes
 
-If a Raspberry Pi fails to boot for some reason, or has to shut down, in many cases an LED will be flashed a specific number of times to indicate what happened. The LED will blink for a number of long flashes (0 or more), then short flashes, to indicate the exact status. In most cases, the pattern will repeat after a 2 second gap.
+If a Raspberry Pi fails to boot for some reason, or has to shut down, in many cases an LED will flash a specific number of times to indicate what happened. The LED will blink for a number of long flashes (0 or more), then produce short flashes, to indicate the exact status. In most cases, the pattern will repeat after a two-second gap.
 
 [cols="^,^,"]
 |===
@@ -44,23 +44,27 @@ If a Raspberry Pi fails to boot for some reason, or has to shut down, in many ca
 
 | 2
 | 4
-| File signature/hash mismatch - Pi 4
+| File signature/hash mismatch - Pi 4 and Pi 5
 
 | 3
 | 1
-| SPI EEPROM error - Pi 4
+| SPI EEPROM error - Pi 4 and Pi 5
 
 | 3
 | 2
-| SPI EEPROM is write protected - Pi 4
+| SPI EEPROM is write protected - Pi 4 and Pi 5
 
 | 3
 | 3
-| I2C error - Pi 4
+| I2C error - Pi 4 and Pi 5
 
 | 3
 | 4
 | Secure-boot configuration is not valid
+
+| 4
+| 3
+| RP1 not found
 
 | 4
 | 4

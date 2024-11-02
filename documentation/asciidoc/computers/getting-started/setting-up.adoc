@@ -1,66 +1,153 @@
-== Setting up your Raspberry Pi
+[[setting-up-your-raspberry-pi]]
+== Getting started with your Raspberry Pi
 
 video::CQtliTJ41ZE[youtube]
 
-To get started with your Raspberry Pi computer, you'll need the following accessories:
+To get started with your Raspberry Pi, you'll need the following:
 
-A computer monitor or television. Most should work as a display for the Raspberry Pi, but for best results, you should use a display with HDMI input. You'll also need an appropriate xref:getting-started.adoc#connecting-a-display[display] cable to connect your monitor to your Raspberry Pi.
+* a xref:raspberry-pi.adoc#power-supply[power supply]
+* boot media (e.g. a xref:getting-started.adoc#recommended-sd-cards[microSD card with ample storage and speed])
 
-A computer keyboard and mouse
+You can set up your Raspberry Pi as an interactive computer with a desktop, or as a _headless_ computer accessible only over the network. To set your Raspberry Pi up headless, you don't need any additional peripherals: you can preconfigure a hostname, user account, network connection, and SSH when you xref:getting-started.adoc#installing-the-operating-system[install an operating system]. If you want to use your Raspberry Pi directly, you'll need the following additional accessories:
 
- * Any standard USB keyboard and mouse will work with your Raspberry Pi.
- * Wireless keyboards and mice will work if already paired.
- * For keyboard layout configuration options, see xref:configuration.adoc#raspi-config[raspi-config].
+* a display
+* a cable to connect your Raspberry Pi to your display
+* a keyboard
+* a mouse
 
-A good quality xref:raspberry-pi.adoc#power-supply[power supply].
+=== Power supply
 
-We recommend the official Raspberry Pi Power Supply, which has been specifically designed to consistently provide +5.1V despite rapid fluctuations in current draw. Those fluctuations in demand are something that happens a lot when you’re using peripherals with the Raspberry Pi and something that other supplies—designed to provide consistent current for charging cellphones—usually don’t cope with all that well. It also has an attached micro USB cable, which means that you don’t accidentally use a poor-quality cable—something that can be an issue.
+The following table shows the USB-PD power mode required to power various Raspberry Pi models.
+You can use any high-quality power supply that provides the correct power mode.
 
-For the Raspberry Pi 4 Model B and Raspberry Pi 400, you should use the https://www.raspberrypi.com/products/type-c-power-supply/[type C power supply]; for all other models, you should use the https://www.raspberrypi.com/products/micro-usb-power-supply/[micro USB power supply].
+[%header,cols="1,1,1"]
+|===
+|Model
+|Recommended power supply (voltage/current)
+|Raspberry Pi power supply
 
-Finally, you'll need an xref:getting-started.adoc#sd-cards[SD card]; we recommend a minimum of 8GB micro SD card and use the https://www.raspberrypi.com/software/[Raspberry Pi Imager] to install an operating system onto it.
+|Raspberry Pi 5
+|5V/5A, 5V/3A limits peripherals to 600mA
+|https://www.raspberrypi.com/products/27w-power-supply/[27W USB-C power supply]
 
-=== Connecting a Display
+|Raspberry Pi 4 Model B
+|5V/3A
+|https://www.raspberrypi.com/products/type-c-power-supply/[15W USB-C power supply]
 
-Unless you're setting up your Raspberry Pi to operate xref:configuration.adoc#setting-up-a-headless-raspberry-pi[headless], for regular use, you'll want to plug the Raspberry Pi into a display: either a computer monitor or a television.
+|Raspberry Pi 3 (all models)
+|5V/2.5A
+|https://www.raspberrypi.com/products/micro-usb-power-supply/[12.5W Micro USB power supply]
 
-Your Raspberry Pi has an HDMI port which you can connect directly to a monitor or TV with an HDMI cable. This is the easiest solution; some modern monitors and TVs have HDMI ports, and some do not, but there are other options.
+|Raspberry Pi 2 (all models)
+|5V/2.5A
+|https://www.raspberrypi.com/products/micro-usb-power-supply/[12.5W Micro USB power supply]
 
-NOTE: The Raspberry Pi 4 has two micro HDMI connectors, which require a good-quality micro HDMI cable, especially when using 4K monitors or television. Raspberry Pi sells a https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/[suitable cable].
+|Raspberry Pi 1 (all models)
+|5V/2.5A
+|https://www.raspberrypi.com/products/micro-usb-power-supply/[12.5W Micro USB power supply]
 
-If you're using your Raspberry Pi with a monitor with built-in speakers and are connecting to it using an HDMI cable, you can also use it to output sound. For monitors with a DVI port, you can use an HDMI-to-DVI cable or an HDMI cable with a DVI adapter. In addition, you can use an HDMI-to-VGA adapter for older monitors that only support VGA. 
+|Raspberry Pi Zero (all models)
+|5V/2.5A
+|https://www.raspberrypi.com/products/micro-usb-power-supply/[12.5W Micro USB power supply]
+|===
 
+image::images/peripherals/cable-power.png[alt="Plugging a power supply into a Raspberry Pi."]
 
-NOTE: Unlike HDMI the DVI and VGA standards do not support audio.
-
-Finally, some models of Raspberry Pi have a composite out port for connecting to analog devices, but the type of connector varies depending on the model. The original Raspberry Pi used an RCA connector, and a standard RCA composite video lead will work. Other models (Raspberry Pi B+ and later) combine the audio and composite out onto the same 3.5mm jack. This requires a particular type of lead, with audio left on the tip, audio right on ring 1, ground on ring 2, and video on the sleeve. This is the same as leads used on the Zune and on Apple devices.
-
-More information on connecting to a monitor can be found in as part of the Raspberry Pi Foundation's https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up[Learning Resources].
+Plug your power supply into the port marked "POWER IN", "PWR IN", or "PWR". Some Raspberry Pi models, such as the Zero series, have output USB ports with the same form factor as the power port. Be sure to use the correct port on your Raspberry Pi!
 
 [[sd-cards]]
-=== SD Cards for Raspberry Pi
+=== Boot media
 
-Raspberry Pi computers use a micro SD card, except for very early models which use a full-sized SD card.
+Raspberry Pi models lack onboard storage, so you have to supply it. You can boot your Raspberry Pi from an operating system image installed on any supported media: microSD cards are used commonly, but USB storage, network storage, and storage connected via a PCIe HAT are also available. However, only recent Raspberry Pi models support all of these media types.
 
-WARNING: Because of a hardware limitation in the Raspberry Pi Zero, 1 and 2, the boot partition on the SD card must be 256GB or less otherwise the device will not boot up. Later models of Raspberry Pi 2 — with a BCM2837 SoC — along with the Raspberry Pi 3, 4, Zero 2 W, and the Raspberry Pi 400 do not have this limitation. This does not affect Raspberry Pi OS, which always uses a small boot partition.
+All Raspberry Pi consumer models since the Raspberry Pi 1 Model A+ feature a microSD slot. Your Raspberry Pi automatically boots from the microSD slot when the slot contains a card.
 
-==== Recommended Capacity
+image::images/peripherals/sd-card.png[alt="Inserting a microSD card into a Raspberry Pi."]
 
-We recommend using an SD card of 8GB or greater capacity with Raspberry Pi OS. If you are using the lite version of Raspberry Pi OS, you can use a 4GB card. Other operating systems have different requirements: for example, LibreELEC can run from a smaller card. Please check with the supplier of the operating system to find out what capacity of card they recommend.
+==== Recommended SD cards
 
-=== Optional items
+[[recommended-capacity]]
 
-A network (Ethernet) cable to connect your Raspberry Pi to your local network and the Internet.
+We recommend using an SD card with at least 32GB of storage for Raspberry Pi OS installations. For Raspberry Pi OS Lite, we recommend at least 16GB. You can use any SD card with a capacity of less than 2TB. Capacities above 2TB are currently not supported due to limitations in the https://en.wikipedia.org/wiki/Master_boot_record[MBR]. As with any other boot media, you'll see improved performance on SD cards with faster read and write speeds.
 
-If you aren't using an HDMI monitor with speakers you might also need some form of sound hardware. Audio can be played through speakers or headphones by connecting them to the AV jack (not available on the Raspberry Pi 400). However speakers must have their own amplification since the output from your Raspberry Pi is not powerful enough to drive them directly.
+If you're unsure which SD card to buy, consider xref:../accessories/sd-cards.adoc[Raspberry Pi's official SD cards].
 
-=== Troubleshooting
+Because of a hardware limitation, the following devices will only boot from a boot partition of 256GB or less:
 
-If you are having problems with your SD card:
+* Raspberry Pi Zero
+* Raspberry Pi 1
+* early Raspberry Pi 2 models with the BCM2836 SoC
 
-* Make sure you are using a genuine SD card. The best way to avoid fake SD cards is to always buy from a reputable supplier.
-* Make sure you are using a good quality power supply: we recommend using an official Raspberry Pi power supply.
-* The cable from the power supply unit to the Raspberry Pi can also cause problems. This is usually due to the resistance of the wires in the USB power cable; to save money, USB cables have as little copper in them as possible, which causes a voltage drop across the cable.
-* Make sure you shut down the operating system correctly before you power down the Raspberry Pi.
+Other operating systems have different requirements. Check the documentation for your operating system for capacity requirements.
 
-You can get help with setting up your Raspberry Pi on our https://forums.raspberrypi.com/[forums].
+=== Keyboard
+
+You can use any of the USB ports on your Raspberry Pi to connect a https://www.raspberrypi.com/products/raspberry-pi-keyboard-and-hub/[wired keyboard] or USB Bluetooth receiver.
+
+image:images/peripherals/cable-key.png[alt="Plugging a keyboard into a Raspberry Pi."]
+
+=== Mouse
+
+You can use any of the USB ports on your Raspberry Pi to connect a https://www.raspberrypi.com/products/raspberry-pi-mouse/[wired mouse] or USB Bluetooth receiver.
+
+image:images/peripherals/cable-mouse.png[alt="Plugging a mouse into a Raspberry Pi."]
+
+=== Display
+
+Raspberry Pi models have the following display connectivity:
+
+[%header,cols="1,1"]
+|===
+|Model
+|Display outputs
+
+|Raspberry Pi 5
+|2× micro HDMI
+
+|Raspberry Pi 4 (all models)
+|2× micro HDMI, audio and composite out via 3.5mm http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack
+
+|Raspberry Pi 3 (all models)
+|HDMI, audio and composite out via 3.5mm http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack
+
+|Raspberry Pi 2 (all models)
+|HDMI, audio and composite out via 3.5mm http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack
+
+|Raspberry Pi 1 Model B+
+|HDMI, audio and composite out via 3.5mm http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack
+
+|Raspberry Pi 1 Model A+
+|HDMI, audio and composite out via 3.5mm http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack
+
+|Raspberry Pi Zero (all models)
+|mini HDMI
+|===
+
+NOTE: No Raspberry Pi models support video over USB-C (DisplayPort alt mode).
+
+If your Raspberry Pi has more than one HDMI port, plug your primary monitor into the port marked `HDMI0`.
+
+Most displays don't have micro or mini HDMI ports. However, you can use a https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/[micro-HDMI-to-HDMI cable] or https://www.raspberrypi.com/products/standard-hdmi-a-male-to-mini-hdmi-c-male-cable/[mini-HDMI-to-HDMI cable] to connect those ports on your Raspberry Pi to any HDMI display. For displays that don't support HDMI, consider an adapter that translates display output from HDMI to a port supported by your display.
+
+image::images/peripherals/cable-hdmi.png[alt="Plugging a micro HDMI cable into a Raspberry Pi."]
+
+=== Audio
+
+All Raspberry Pi models with HDMI, micro HDMI, or mini HDMI support audio output over HDMI.
+All Raspberry Pi models support audio over USB. All Raspberry Pi models equipped with Bluetooth support Bluetooth audio.
+All variants of the Raspberry Pi 1, 2, 3, and 4 include a 3.5mm auxiliary http://en.wikipedia.org/wiki/Phone_connector_(audio)#TRRS_standards[TRRS] jack, which may require amplification for sufficient output volume.
+
+=== Networking
+
+The following Raspberry Pi models come with Wi-Fi and Bluetooth connectivity:
+
+* Raspberry Pi 5
+* Raspberry Pi 4
+* Raspberry Pi 3B+
+* Raspberry Pi 3
+* Raspberry Pi Zero W
+* Rsapberry Pi Zero 2 W
+
+The "Model B" suffix indicates variants with an Ethernet port; "Model A" indicates no Ethernet port. If your Raspberry Pi doesn't have an Ethernet port, you can still connect to a wired internet connection using a USB-to-Ethernet adapter.
+
+image::images/peripherals/cable-net.png[alt="Plugging an Ethernet cable into a Raspberry Pi."]

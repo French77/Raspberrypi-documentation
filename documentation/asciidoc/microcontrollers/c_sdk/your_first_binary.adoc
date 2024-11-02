@@ -1,7 +1,5 @@
 == Your First Binaries
 
-WARNING: If you are using an Apple Mac, and running macOS Ventura, there has been a change in how the Finder works which causes drag-and-drop to fail. Please see our https://www.raspberrypi.com/news/the-ventura-problem/[blog post] for a full explanation, and workarounds, and our https://github.com/raspberrypi/pico-sdk/issues/1081[Github issue] tracking the problem for the current status.
-
 === Blink an LED
 
 The first program anyone writes when using a new microcontroller is to blink an LED on and off. The Raspberry Pi Pico comes with a single LED on-board. The LED is connected to `GP25` on the board's Raspberry Pi RP2040 for Pico, and `WL_GPIO0` on the Infineon 43439 wireless chip for Pico W.
@@ -31,10 +29,10 @@ image:images/Hello-World-640x360-v2.gif[]
 . Drag and drop the 'Hello World' UF2 binary onto the RPI-RP2 volume. Pico will reboot.
 . Open a Terminal window and type:
 +
-[source]
+[source,console]
 ------
-sudo apt install minicom
-minicom -b 115200 -o -D /dev/ttyACM0
+$ sudo apt install minicom
+$ minicom -b 115200 -o -D /dev/ttyACM0
 ------
 
 You should see 'Hello, world!' printed to the Terminal.

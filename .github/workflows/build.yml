@@ -23,30 +23,34 @@ jobs:
           echo "Pull requests based on master can only come from the develop branch of this repository"
           echo "Please check your base branch as it should be develop by default"
           exit 1
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.9
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
+      - name: Install Python libs
+        run: pip3 install -r ./requirements.txt
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 3.2
           bundler-cache: true
-      - uses: seanmiddleditch/gha-setup-ninja@v3
+      - uses: seanmiddleditch/gha-setup-ninja@v5
         with:
           version: 1.10.2
       - name: Install arm-none-eabi-gcc GNU Arm Embedded Toolchain
-        uses: carlosperate/arm-none-eabi-gcc-action@v1.6.0
+        uses: carlosperate/arm-none-eabi-gcc-action@v1.9.1
       - name: Install Doxygen
         run: |
-          wget https://www.doxygen.nl/files/doxygen-1.9.6.linux.bin.tar.gz
-          tar xf doxygen-1.9.6.linux.bin.tar.gz -C "$HOME"
-          echo "$HOME/doxygen-1.9.6/bin" >> $GITHUB_PATH
+          wget https://www.doxygen.nl/files/doxygen-1.10.0.linux.bin.tar.gz
+          tar xf doxygen-1.10.0.linux.bin.tar.gz -C "$HOME"
+          echo "$HOME/doxygen-1.10.0/bin" >> $GITHUB_PATH
       - name: Build Doxygen documentation
         run: make build_doxygen_adoc
       - name: Build documentation
         run: make -j 2
+      - name: Run tests
+        run: ./tests/run_documentation_tests.sh
       - name: Deploy to Mythic Beasts
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: ./.github/actions/deploy-action
@@ -54,7 +58,8 @@ jobs:
           private_ssh_key: ${{ secrets.DEPLOY_SSH_KEY }}
           public_bastion_host_keys: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
           bastion_host: ${{ secrets.DEPLOY_BASTION_HOST }}
-          host: ${{ secrets.DEPLOY_HOST }}
+          primary_host: ${{ secrets.DEPLOY_PRIMARY_HOST }}
+          secondary_host: ${{ secrets.DEPLOY_SECONDARY_HOST }}
           # this needs to match destination: in _config.yml
           source: documentation/html/
           destination: documentation
